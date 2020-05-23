@@ -10,7 +10,7 @@ Authors@R: c(
     person("Christoph", "Kuzmics", role = c("aut"))
     )
 Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
-Description: TO DO
+Description: TO DO To DO
 Depends:
     R (>= 3.5.0)
 License: AGPL-3 | file LICENSE
