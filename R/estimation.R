@@ -99,13 +99,13 @@ compute_bias = function(pi2, pi1, n, seed, B, alpha1, alpha2, beta1, beta2){
 #' mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n)
 #' mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n)
 mle = function(R1, R2, pi1, n, alpha1 = 0, alpha2 = 0,
-               beta1 = 0, beta2 = 0, B = 10^3, seed = 18,
-               eps = 10^(-6), iter_max = 100, gamma = 0.05, ...){
+               beta1 = 0, beta2 = 0, B = 100, seed = 18,
+               eps = 10^(-6), iter_max = 15, gamma = 0.05, ...){
 
 
   if (max(alpha1, alpha2, beta1, beta2) > 0){
     res = rep(NA, (iter_max + 1))
-    res[1] = inter = mle_auxiliary(R1, R2, n, pi1)
+    res[1] = mle_auxiliary(R1, R2, n, pi1)
     estimate = NULL
     for (i in 1:iter_max){
       if (is.na(res[i]) || (i > 1 && (res[i] < 0 || res[i] > 1))){
@@ -116,11 +116,8 @@ mle = function(R1, R2, pi1, n, alpha1 = 0, alpha2 = 0,
                                        B = B, alpha1 = alpha1, alpha2 = alpha2,
                                        beta1 = beta1, beta2 = beta2)
 
-      if (i > 5){
-        inter_old = inter
-        inter = mean(res[(i-5):i])
-
-        if (abs(inter_old - inter) < eps){
+      if (i > 4){
+        if (min(abs(res[i] - res[1:(i-1)])) < eps){
           estimate = res[i]
           break
         }
@@ -132,7 +129,6 @@ mle = function(R1, R2, pi1, n, alpha1 = 0, alpha2 = 0,
     }
 
     # Compute asymptotic covariance matrix
-
     sd = NULL
     ci = NULL
   }else{
@@ -173,7 +169,8 @@ mle = function(R1, R2, pi1, n, alpha1 = 0, alpha2 = 0,
 #' X = sim_Rs(pi2 = 30/1000, pi1 = 10/1000, n = 1500, alpha1 = 0.01,
 #' alpha2 = 0.01, beta1 = 0.05, beta2 = 0.05, seed = 18)
 #' modified_mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n)
-#' modified_mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n)
+#' modified_mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n, alpha1 = 0.01,
+#' alpha2 = 0.01, beta1 = 0.05, beta2 = 0.05)
 modified_mle = function(R1, R2, pi1, n, alpha1 = 0, alpha2 = 0, beta1 = 0, beta2 = 0, gamma = 0.05, ...){
   # Define Deltas
   Delta1 = 1 - alpha1 - beta1
@@ -186,7 +183,22 @@ modified_mle = function(R1, R2, pi1, n, alpha1 = 0, alpha2 = 0, beta1 = 0, beta2
 
   # Estimator
   estimate = (a2 + sqrt(a2^2 + a1*a3))/a3
-  list(estimate = estimate)
+
+  if (alpha2 == 0){
+    sd = sqrt(((estimate*(1 - alpha1) - pi1*Delta1)*(1 + pi1*(1 - beta2)*Delta1 - estimate*(1 - alpha1)*(1 - beta2)))/(n*(1 - alpha1)^2*(1 - beta2)))
+    upper = (qbeta(p = 1 - gamma/2, R2 - R1 + 1, n - R2 + R1))/((1 - alpha1)*(1 - beta2)) + pi1*(1 - beta2)*Delta1
+    lower = (qbeta(p = gamma/2, R2 - R1, n - R2 + R1 + 1))/((1 - alpha1)*(1 - beta2)) + pi1*(1 - beta2)*Delta1
+  }else{
+    pi2_star = estimate*Delta1 + alpha2
+    pi2_corrected = pi2_star*(1 - (pi1/estimate*(1 - beta1) - (1 - pi1/estimate)*alpha1))
+    var_R2_R1 = n*pi2_corrected*(1 - pi2_corrected)
+    c_coef = pi1*Delta1*Delta2 - alpha2*(1 - alpha2)
+    coef = 1/(n*a3)*(1 + (pi2_corrected + c_coef)/sqrt(a1*a3 + (c_coef + pi2_corrected)^2))
+    sd = sqrt(coef^2*var_R2_R1)
+    lower = estimate - qnorm(1 - gamma/2)*sd
+    upper = estimate + qnorm(1 - gamma/2)*sd
+  }
+  list(estimate = estimate, sd = sd, ci = c(lower, upper), gamma = gamma, ...)
 }
 
 

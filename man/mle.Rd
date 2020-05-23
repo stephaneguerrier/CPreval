@@ -13,10 +13,11 @@ mle(
   alpha2 = 0,
   beta1 = 0,
   beta2 = 0,
-  B = 10^3,
+  B = 100,
   seed = 18,
   eps = 10^(-6),
-  iter_max = 100,
+  iter_max = 15,
+  gamma = 0.05,
   ...
 )
 }
@@ -50,9 +51,9 @@ Default value is \code{10^(-6)}.}
 This is only used in the case of measurement error (i.e. \code{max(alpha1, alpha2, beta1, beta2) > 0}) in the simulation-based correction method.
 Default value is \code{100}.}
 
-\item{...}{Additional arguments.}
-
 \item{gamma}{A \code{numeric} that used to compute a (1 - gamma) confidence region for the proportion. Default value is \code{0.05}.}
+
+\item{...}{Additional arguments.}
 }
 \value{
 A \code{list} with the structure:

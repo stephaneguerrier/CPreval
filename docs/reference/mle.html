@@ -127,10 +127,11 @@ bootstrap.</p>
   <span class='kw'>alpha2</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>beta1</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>beta2</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>10</span>^<span class='fl'>3</span>,
+  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>,
   <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>,
   <span class='kw'>eps</span> <span class='kw'>=</span> <span class='fl'>10</span>^(-<span class='fl'>6</span>),
-  <span class='kw'>iter_max</span> <span class='kw'>=</span> <span class='fl'>100</span>,
+  <span class='kw'>iter_max</span> <span class='kw'>=</span> <span class='fl'>15</span>,
+  <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -189,12 +190,12 @@ This is only used in the case of measurement error (i.e. <code>max(alpha1, alpha
 Default value is <code>100</code>.</p></td>
     </tr>
     <tr>
-      <th>...</th>
-      <td><p>Additional arguments.</p></td>
-    </tr>
-    <tr>
       <th>gamma</th>
       <td><p>A <code>numeric</code> that used to compute a (1 - gamma) confidence region for the proportion. Default value is <code>0.05</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments.</p></td>
     </tr>
     </table>
 

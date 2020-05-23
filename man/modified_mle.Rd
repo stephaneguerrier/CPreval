@@ -55,7 +55,8 @@ modified_mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n)
 X = sim_Rs(pi2 = 30/1000, pi1 = 10/1000, n = 1500, alpha1 = 0.01,
 alpha2 = 0.01, beta1 = 0.05, beta2 = 0.05, seed = 18)
 modified_mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n)
-modified_mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n)
+modified_mle(R1 = X$R1, R2 = X$R2, pi1 = X$pi1, n = X$n, alpha1 = 0.01,
+alpha2 = 0.01, beta1 = 0.05, beta2 = 0.05)
 }
 \author{
 Stephane Guerrier

@@ -182,14 +182,41 @@ the Clopper–Pearson approach when alpha2 = 0.</p>
 <span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sim_Rs.html'>sim_Rs</a></span>(<span class='kw'>pi2</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>100</span>, <span class='kw'>pi1</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>100</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1500</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>)
 <span class='fu'>modified_mle</span>(<span class='kw'>R1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R1</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R2</span>, <span class='kw'>pi1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; $estimate
 #&gt; [1] 0.02866667
+#&gt; 
+#&gt; $sd
+#&gt; [1] 0.003494588
+#&gt; 
+#&gt; $ci
+#&gt; [1] 0.02243881 0.03686622
+#&gt; 
+#&gt; $gamma
+#&gt; [1] 0.05
 #&gt; </div><div class='input'>
 <span class='co'># With measurement error</span>
 <span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sim_Rs.html'>sim_Rs</a></span>(<span class='kw'>pi2</span> <span class='kw'>=</span> <span class='fl'>30</span>/<span class='fl'>1000</span>, <span class='kw'>pi1</span> <span class='kw'>=</span> <span class='fl'>10</span>/<span class='fl'>1000</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1500</span>, <span class='kw'>alpha1</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
 <span class='kw'>alpha2</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta1</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>beta2</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>)
 <span class='fu'>modified_mle</span>(<span class='kw'>R1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R1</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R2</span>, <span class='kw'>pi1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; $estimate
 #&gt; [1] 0.034
+#&gt; 
+#&gt; $sd
+#&gt; [1] 0.003951708
+#&gt; 
+#&gt; $ci
+#&gt; [1] 0.02686460 0.04307243
+#&gt; 
+#&gt; $gamma
+#&gt; [1] 0.05
 #&gt; </div><div class='input'><span class='fu'>modified_mle</span>(<span class='kw'>R1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R1</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R2</span>, <span class='kw'>pi1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; $estimate
 #&gt; [1] 0.034
+#&gt; 
+#&gt; $sd
+#&gt; [1] 0.003951708
+#&gt; 
+#&gt; $ci
+#&gt; [1] 0.02686460 0.04307243
+#&gt; 
+#&gt; $gamma
+#&gt; [1] 0.05
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
