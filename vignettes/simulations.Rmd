@@ -19,14 +19,16 @@ library(knitr)
 library(kableExtra)
 ```
 
+# Simulation: Point Estimation
+
 In this simulation study, we compare the performance of the three estimators considered in @guerrier2020accurate, namely the sample survey, $\bar{\pi}_2$, the MLE $\hat{\pi}_2$ as well as the *modified* MLE $\tilde{\pi}_2$. All simulation results are based on $B = 10^3$ Monte-Carlo replications and we consider 12 simulation settings, which are presented in the table below:
 
-```{r setting}
+```{r setting, fig.align='center'}
 # Load package
 library(CPreval)
 
 # Number of Monte-Carlo simulations 
-B = 5
+B = 10^3
 
 # Initial simulation seed
 seed = 1832  
@@ -49,8 +51,10 @@ kable(simu, col.names = c("Simulation ID",
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
+The code for the simulation is given here:
+
 ```{r simu, cache = TRUE, warning=FALSE}
-# Initialisation  
+# Initialisation     
 res_survey = res_mle = res_mod_mle = matrix(NA, B, 12)
 
 # Start Monte-Carlo
