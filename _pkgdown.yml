@@ -1,0 +1,13 @@
+template:
+  params:
+    bootswatch: flatly
+
+navbar:
+  left:
+  - text: Simulation Study
+    href: articles/simulations.html
+  - text: Reference
+    href: reference/index.html
+  right:
+  - icon: fa-github
+    href: https://github.com/stephaneguerrier/CPreval

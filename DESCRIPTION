@@ -1,0 +1,26 @@
+Package: CPreval
+Type: Package
+Title: TO DO
+Version: 0.1
+Date: 2020-05-25
+LazyData: true
+Authors@R: c(
+    person("Stéphane", "Guerrier", email = "stef.guerrier@gmail.com", role = c("aut","cre")),
+    person("Maria-Pia", "Victoria-Feser", role = c("aut")),
+    person("Christoph", "Kuzmics", role = c("aut"))
+    )
+Maintainer: Stéphane Guerrier <stef.guerrier@gmail.com>
+Description: TO DO
+Depends:
+    R (>= 3.5.0)
+License: AGPL-3 | file LICENSE
+RoxygenNote: 7.0.2
+Encoding: UTF-8
+Imports:
+    numDeriv
+Suggests:
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+URL: TO DO
+BugReports: TO DO
