@@ -218,6 +218,9 @@ Default value is <code>100</code>.</p></td>
 #&gt; $ci
 #&gt; [1] 0.02178720 0.03547087
 #&gt; 
+#&gt; $ci2
+#&gt; [1] 0.02243881 0.03686622
+#&gt; 
 #&gt; $gamma
 #&gt; [1] 0.05
 #&gt; </div><div class='input'>
@@ -233,16 +236,23 @@ Default value is <code>100</code>.</p></td>
 #&gt; $ci
 #&gt; [1] 0.02625576 0.04174424
 #&gt; 
+#&gt; $ci2
+#&gt; [1] 0.02686460 0.04307243
+#&gt; 
 #&gt; $gamma
 #&gt; [1] 0.05
-#&gt; </div><div class='input'><span class='fu'>mle</span>(<span class='kw'>R1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R1</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R2</span>, <span class='kw'>pi1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; $estimate
-#&gt; [1] 0.034
+#&gt; </div><div class='input'><span class='fu'>mle</span>(<span class='kw'>R1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R1</span>, <span class='kw'>R2</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R2</span>, <span class='kw'>pi1</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi1</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>, <span class='kw'>alpha1</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+<span class='kw'>alpha2</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta1</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>beta2</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; $estimate
+#&gt; [1] 0.02862991
 #&gt; 
 #&gt; $sd
-#&gt; [1] 0.003951218
+#&gt; [1] 0.003784759
 #&gt; 
 #&gt; $ci
-#&gt; [1] 0.02625576 0.04174424
+#&gt; [1] 0.02121192 0.03604790
+#&gt; 
+#&gt; $ci2
+#&gt; [1] 0.02050707 0.03792361
 #&gt; 
 #&gt; $gamma
 #&gt; [1] 0.05
