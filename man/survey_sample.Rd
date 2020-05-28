@@ -13,11 +13,11 @@ survey_sample(R, n, alpha = 0, beta = 0, gamma = 0.05, ...)
 
 \item{alpha}{A \code{numeric} that provides the False Negative (FN) rate for the sample R. Default value is \code{0}.}
 
-\item{beta}{A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.}
-
 \item{gamma}{A \code{numeric} that used to compute a (1 - gamma) confidence region for the proportion. Default value is \code{0.05}.}
 
 \item{...}{Additional arguments.}
+
+\item{beta0}{A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.}
 }
 \value{
 A \code{list} with the structure:
@@ -27,6 +27,8 @@ A \code{list} with the structure:
  \item ci_asy: Asymptotic confidence interval
  \item ci_cp: Confidence interval based on the Clopper–Pearson approach
  \item gamma: Confidence level (i.e. 1 - gamma) for confidence interval
+ \item method: Estimation method (in this case sample survey)
+ \item measurement: A vector with (alpha0, alpha, beta0, beta)
  \item ...: Additional parameters
 }
 }
