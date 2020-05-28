@@ -2,54 +2,40 @@
 % Please edit documentation in R/simulate.R
 \name{sim_Rs}
 \alias{sim_Rs}
-\title{Simulate R1 and R2}
+\title{Simulate R and R0}
 \usage{
-sim_Rs(
-  pi2,
-  pi1,
-  n,
-  alpha1 = 0,
-  alpha2 = 0,
-  beta1 = 0,
-  beta2 = 0,
-  seed = NULL,
-  ...
-)
+sim_Rs(p, pi0, n, alpha0 = 0, alpha = 0, beta0 = 0, beta = 0, seed = NULL, ...)
 }
 \arguments{
-\item{pi2}{A \code{numeric} that provides the true poportion of proportion of people in this population who are positive.}
+\item{p}{A \code{numeric} that provides the true poportion of proportion of people in this population who are positive.}
 
-\item{pi1}{A \code{numeric} that provides the proportion of people (in the whole population) who are positive, as measured through a non-random,
+\item{pi0}{A \code{numeric} that provides the proportion of people (in the whole population) who are positive, as measured through a non-random,
 but systematic sampling (e.g. based on medical selection).}
 
 \item{n}{A \code{numeric} that provides the sample size.}
 
-\item{alpha1}{A \code{numeric} that provides the False Negative (FN) rate for the sample R1. Default value is \code{0}.}
+\item{alpha0}{A \code{numeric} that provides the False Negative (FN) rate for the sample R0. Default value is \code{0}.}
 
-\item{alpha2}{A \code{numeric} that provides the False Negative (FN) rate for the sample R2. Default value is \code{0}.}
-
-\item{beta1}{A \code{numeric} that provides the False Positive (FP) rate for the sample R1. Default value is \code{0}.}
-
-\item{beta2}{A \code{numeric} that provides the False Positive (FP) rate for the sample R2. Default value is \code{0}.}
+\item{beta}{A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.}
 
 \item{seed}{A \code{numeric} that provides the simulation seed. Default value is \code{NULL}.}
 
 \item{...}{Additional arguments.}
 }
 \value{
-A \code{list} containing R1, R2, pi1, n, alpha1, alpha2, beta1 and beta2.
+A \code{list} containing R, R0, pi0, n, alpha, alpha0, beta and beta0.
 }
 \description{
-Simulation function for: R2 the number of people, out of n, that have been declared positive
-in the random sample, and among these ones, the ones that have been declared as infected before, i.e. R1.
+Simulation function for: R the number of people, out of n, that have been declared positive
+in the random sample, and among these ones, the ones that have been declared as infected before, i.e. R0.
 }
 \examples{
 # Samples without measurement error
-sim_Rs(pi2 = 3/100, pi1 = 1/100, n = 1500, seed = 18)
+sim_Rs(p = 3/100, pi0 = 1/100, n = 1500, seed = 18)
 
 # With measurement error
-sim_Rs(pi2 = 3/100, pi1 = 1/100, n = 1500, alpha1 = 0.01,
-alpha2 = 0.01, beta1 = 0.05, beta2 = 0.05, seed = 18)
+sim_Rs(p = 3/100, pi0 = 1/100, n = 1500, alpha0 = 0.01,
+alpha = 0.01, beta0 = 0.05, beta = 0.05, seed = 18)
 }
 \author{
 Stephane Guerrier

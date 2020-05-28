@@ -4,16 +4,16 @@
 \alias{survey_sample}
 \title{Compute proportion in the survey sample}
 \usage{
-survey_sample(R2, n, alpha2 = 0, beta2 = 0, gamma = 0.05, ...)
+survey_sample(R, n, alpha = 0, beta = 0, gamma = 0.05, ...)
 }
 \arguments{
-\item{R2}{A \code{numeric} that provides the people of positive people in the sample.}
+\item{R}{A \code{numeric} that provides the people of positive people in the sample.}
 
 \item{n}{A \code{numeric} that provides the sample size.}
 
-\item{alpha2}{A \code{numeric} that provides the False Negative (FN) rate for the sample R2. Default value is \code{0}.}
+\item{alpha}{A \code{numeric} that provides the False Negative (FN) rate for the sample R. Default value is \code{0}.}
 
-\item{beta2}{A \code{numeric} that provides the False Positive (FP) rate for the sample R2. Default value is \code{0}.}
+\item{beta}{A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.}
 
 \item{gamma}{A \code{numeric} that used to compute a (1 - gamma) confidence region for the proportion. Default value is \code{0.05}.}
 
@@ -24,8 +24,10 @@ A \code{list} with the structure:
 \itemize{
  \item estimate: Estimated proportion
  \item sd: Estimated standard error of the estimator
- \item ci: Confidence interval
+ \item ci_asy: Asymptotic confidence interval
+ \item ci_cp: Confidence interval based on the Clopper–Pearson approach
  \item gamma: Confidence level (i.e. 1 - gamma) for confidence interval
+ \item ...: Additional parameters
 }
 }
 \description{
@@ -33,14 +35,14 @@ Proportion estimated using the survey sample and confidence intervals based on t
 }
 \examples{
 # Samples without measurement error
-X = sim_Rs(pi2 = 30/1000, pi1 = 10/1000, n = 1500, seed = 18)
-survey_sample(X$R2, X$n)
+X = sim_Rs(p = 30/1000, pi0 = 10/1000, n = 1500, seed = 18)
+survey_sample(X$R, X$n)
 
 # With measurement error
-X = sim_Rs(pi2 = 30/1000, pi1 = 10/1000, n = 1500, alpha1 = 0.01,
-alpha2 = 0.01, beta1 = 0.05, beta2 = 0.05, seed = 18)
-survey_sample(X$R2, X$n)
-survey_sample(X$R2, X$n, alpha = 0.01, beta2 = 0.05)
+X = sim_Rs(p = 30/1000, pi0 = 10/1000, n = 1500, alpha0 = 0.01,
+alpha = 0.01, beta0 = 0.05, beta = 0.05, seed = 18)
+survey_sample(X$R, X$n)
+survey_sample(X$R, X$n, alpha = 0.01, beta = 0.05)
 }
 \author{
 Stephane Guerrier
