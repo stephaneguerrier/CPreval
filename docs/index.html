@@ -74,6 +74,182 @@
 
 <span class="co"># Install the package from GitHub</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"stephaneguerrier/CPreval"</span>)</pre></div>
+<div id="example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example" class="anchor"></a>Example</h2>
+<p>Consider the following data:</p>
+<div class="sourceCode" id="cb2"><pre class="r"><span class="no">seed</span> <span class="kw">=</span> <span class="fl">18</span>
+<span class="no">n</span>    <span class="kw">=</span> <span class="fl">1500</span>
+<span class="no">p0</span>   <span class="kw">=</span> <span class="fl">3</span>/<span class="fl">100</span>
+<span class="no">pi0</span>  <span class="kw">=</span> <span class="fl">1</span>/<span class="fl">100</span>
+(<span class="no">X</span> <span class="kw">=</span> <span class="fu"><a href="reference/sim_Rs.html">sim_Rs</a></span>(<span class="kw">p</span> <span class="kw">=</span> <span class="no">p0</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">n</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="no">seed</span>))
+<span class="co">#&gt; $R0</span>
+<span class="co">#&gt; [1] 12</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $R</span>
+<span class="co">#&gt; [1] 40</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $pi0</span>
+<span class="co">#&gt; [1] 0.01</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $n</span>
+<span class="co">#&gt; [1] 1500</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $alpha0</span>
+<span class="co">#&gt; [1] 0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $alpha</span>
+<span class="co">#&gt; [1] 0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $beta0</span>
+<span class="co">#&gt; [1] 0</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $beta</span>
+<span class="co">#&gt; [1] 0</span></pre></div>
+<p>Estimators:</p>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="reference/survey_sample.html">survey_sample</a></span>(<span class="no">X</span>$<span class="no">R</span>, <span class="no">X</span>$<span class="no">n</span>)
+<span class="co">#&gt; Method: Survey sample</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 2.6667%</span>
+<span class="co">#&gt; Standard error      : 0.4160%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 1.8514% - 3.4820%</span>
+<span class="co">#&gt; Clopper–Pearson    : 1.9118% - 3.6137%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha = 0%, beta = 0%</span>
+<span class="fu"><a href="reference/moment_estimator.html">moment_estimator</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>)
+<span class="co">#&gt; Method: Moment estimator</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 2.8667%</span>
+<span class="co">#&gt; Standard error      : 0.3495%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 2.1817% - 3.5516%</span>
+<span class="co">#&gt; Clopper–Pearson    : 2.2439% - 3.6866%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha0 = 0%, alpha = 0%, </span>
+<span class="co">#&gt;                            beta0  = 0%, beta  = 0%</span>
+<span class="fu"><a href="reference/mle.html">mle</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>)
+<span class="co">#&gt; Method: MLE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 2.8629%</span>
+<span class="co">#&gt; Standard error      : 0.3491%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 2.1787% - 3.5471%</span>
+<span class="co">#&gt; Clopper–Pearson    : 2.2439% - 3.6866%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha0 = 0%, alpha = 0%, </span>
+<span class="co">#&gt;                            beta0  = 0%, beta  = 0%</span></pre></div>
+<p>With measurement error:</p>
+<div class="sourceCode" id="cb4"><pre class="r"><span class="no">alpha0</span> <span class="kw">=</span> <span class="fl">1</span>/<span class="fl">100</span>
+<span class="no">alpha</span>  <span class="kw">=</span> <span class="fl">1</span>/<span class="fl">100</span>
+<span class="no">beta0</span>  <span class="kw">=</span> <span class="fl">6</span>/<span class="fl">100</span>
+<span class="no">beta</span>   <span class="kw">=</span> <span class="fl">6</span>/<span class="fl">100</span>
+(<span class="no">X</span> <span class="kw">=</span> <span class="fu"><a href="reference/sim_Rs.html">sim_Rs</a></span>(<span class="kw">p</span> <span class="kw">=</span> <span class="no">p0</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">n</span>, <span class="kw">seed</span> <span class="kw">=</span> <span class="no">seed</span>,
+           <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">alpha</span>, <span class="kw">alpha0</span> <span class="kw">=</span> <span class="no">alpha0</span>,
+           <span class="kw">beta</span> <span class="kw">=</span> <span class="no">beta</span>, <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">beta0</span>))
+<span class="co">#&gt; $R0</span>
+<span class="co">#&gt; [1] 15</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $R</span>
+<span class="co">#&gt; [1] 51</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $pi0</span>
+<span class="co">#&gt; [1] 0.01</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $n</span>
+<span class="co">#&gt; [1] 1500</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $alpha0</span>
+<span class="co">#&gt; [1] 0.01</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $alpha</span>
+<span class="co">#&gt; [1] 0.01</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $beta0</span>
+<span class="co">#&gt; [1] 0.06</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $beta</span>
+<span class="co">#&gt; [1] 0.06</span></pre></div>
+<p>Without taking into account measurement error:</p>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="fu"><a href="reference/survey_sample.html">survey_sample</a></span>(<span class="no">X</span>$<span class="no">R</span>, <span class="no">X</span>$<span class="no">n</span>)
+<span class="co">#&gt; Method: Survey sample</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 3.4000%</span>
+<span class="co">#&gt; Standard error      : 0.4679%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 2.4829% - 4.3171%</span>
+<span class="co">#&gt; Clopper–Pearson    : 2.5418% - 4.4463%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha = 0%, beta = 0%</span>
+<span class="fu"><a href="reference/moment_estimator.html">moment_estimator</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>)
+<span class="co">#&gt; Method: Moment estimator</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 3.4000%</span>
+<span class="co">#&gt; Standard error      : 0.3952%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 2.6255% - 4.1745%</span>
+<span class="co">#&gt; Clopper–Pearson    : 2.6865% - 4.3072%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha0 = 0%, alpha = 0%, </span>
+<span class="co">#&gt;                            beta0  = 0%, beta  = 0%</span>
+<span class="fu"><a href="reference/mle.html">mle</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>)
+<span class="co">#&gt; Method: MLE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 3.4000%</span>
+<span class="co">#&gt; Standard error      : 0.3951%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 2.6256% - 4.1744%</span>
+<span class="co">#&gt; Clopper–Pearson    : 2.6865% - 4.3072%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha0 = 0%, alpha = 0%, </span>
+<span class="co">#&gt;                            beta0  = 0%, beta  = 0%</span></pre></div>
+<p>Taking into account measurement error:</p>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="fu"><a href="reference/survey_sample.html">survey_sample</a></span>(<span class="no">X</span>$<span class="no">R</span>, <span class="no">X</span>$<span class="no">n</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">alpha</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">beta</span>)
+<span class="co">#&gt; Method: Survey sample</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 2.6559%</span>
+<span class="co">#&gt; Standard error      : 0.4679%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 1.7388% - 3.5730%</span>
+<span class="co">#&gt; Clopper–Pearson    : 1.6578% - 3.7057%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha = 1%, beta = 6%</span>
+<span class="fu"><a href="reference/moment_estimator.html">moment_estimator</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>,
+                 <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">alpha</span>, <span class="kw">alpha0</span> <span class="kw">=</span> <span class="no">alpha0</span>,
+                 <span class="kw">beta</span> <span class="kw">=</span> <span class="no">beta</span>, <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">beta0</span>)
+<span class="co">#&gt; Method: Moment estimator</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 2.8280%</span>
+<span class="co">#&gt; Standard error      : 0.3860%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 2.0714% - 3.5847%</span>
+<span class="co">#&gt; Clopper–Pearson    : 2.0530% - 3.8134%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha0 = 1%, alpha = 1%, </span>
+<span class="co">#&gt;                            beta0  = 6%, beta  = 6%</span>
+<span class="fu"><a href="reference/mle.html">mle</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>,
+                 <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">alpha</span>, <span class="kw">alpha0</span> <span class="kw">=</span> <span class="no">alpha0</span>,
+                 <span class="kw">beta</span> <span class="kw">=</span> <span class="no">beta</span>, <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">beta0</span>)
+<span class="co">#&gt; Method: MLE</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Estimated proportion: 2.8658%</span>
+<span class="co">#&gt; Standard error      : 0.3823%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Confidence intervals with gamma = 0.05:</span>
+<span class="co">#&gt; Asymptotic Approach: 2.1165% - 3.6152%</span>
+<span class="co">#&gt; Clopper–Pearson    : 2.0483% - 3.8087%</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Assumed measurement error: alpha0 = 1%, alpha = 1%, </span>
+<span class="co">#&gt;                            beta0  = 6%, beta  = 6%</span></pre></div>
+</div>
 <div id="license" class="section level2">
 <h2 class="hasAnchor">
 <a href="#license" class="anchor"></a>License</h2>
@@ -114,10 +290,7 @@
 <li><a href="https://travis-ci.org/SMAC-Group/simts"><img src="https://travis-ci.org/SMAC-Group/simts.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://opensource.org/licenses/AGPL-3.0"><img src="https://img.shields.io/badge/licence-AGPL--3.0-blue.svg" alt="Licence"></a></li>
 <li><a href="https://cran.r-project.org/"><img src="https://img.shields.io/badge/R%3E%3D-3.4.0-6666ff.svg" alt="minimal R version"></a></li>
-<li><a href="https://cran.r-project.org/package=simts"><img src="http://www.r-pkg.org/badges/version/simts" alt="CRAN"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/simts"><img src="http://cranlogs.r-pkg.org/badges/simts" alt="CRAN RStudio mirror downloads"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/simts"><img src="https://cranlogs.r-pkg.org/badges/grand-total/simts" alt="CRAN RStudio mirror downloads"></a></li>
-<li><a href="https://github.com/SMAC-Group/simts"><img src="https://img.shields.io/badge/last%20change-2020--05--23-green.svg" alt="Last-changedate"></a></li>
+<li><a href="https://github.com/SMAC-Group/simts"><img src="https://img.shields.io/badge/last%20change-2020--06--01-green.svg" alt="Last-changedate"></a></li>
 </ul>
 </div>
 </div>

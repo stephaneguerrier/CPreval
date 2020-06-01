@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute MLE based on R0 and R — mle • CPreval</title>
+<title>Compute moment-based estimator based on R0 and R — moment_estimator • CPreval</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,9 @@
 
 
 
-<meta property="og:title" content="Compute MLE based on R0 and R — mle" />
-<meta property="og:description" content="Proportion estimated using the MLE and confidence intervals based the asymptotic distribution of the estimator
-as well as the Clopper–Pearson approach." />
+<meta property="og:title" content="Compute moment-based estimator based on R0 and R — moment_estimator" />
+<meta property="og:description" content="Proportion estimated using the moment-based estimator and confidence intervals based the asymptotic distribution of the estimator as well as
+the Clopper–Pearson approach." />
 
 
 
@@ -106,17 +106,17 @@ as well as the Clopper–Pearson approach." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute MLE based on R0 and R</h1>
+    <h1>Compute moment-based estimator based on R0 and R</h1>
     
-    <div class="hidden name"><code>mle.Rd</code></div>
+    <div class="hidden name"><code>moment_estimator.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Proportion estimated using the MLE and confidence intervals based the asymptotic distribution of the estimator
-as well as the Clopper–Pearson approach.</p>
+    <p>Proportion estimated using the moment-based estimator and confidence intervals based the asymptotic distribution of the estimator as well as
+the Clopper–Pearson approach.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mle</span>(
+    <pre class="usage"><span class='fu'>moment_estimator</span>(
   <span class='no'>R0</span>,
   <span class='no'>R</span>,
   <span class='no'>pi0</span>,
@@ -125,10 +125,6 @@ as well as the Clopper–Pearson approach.</p>
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>beta0</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>,
-  <span class='kw'>eps</span> <span class='kw'>=</span> <span class='fl'>10</span>^(-<span class='fl'>6</span>),
-  <span class='kw'>iter_max</span> <span class='kw'>=</span> <span class='fl'>15</span>,
   <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
   <span class='no'>...</span>
 )</pre>
@@ -191,13 +187,13 @@ as well as the Clopper–Pearson approach.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Samples without measurement error</span>
 <span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sim_Rs.html'>sim_Rs</a></span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>100</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>100</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1500</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>)
-<span class='fu'>mle</span>(<span class='kw'>R0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R0</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; Method: MLE
+<span class='fu'>moment_estimator</span>(<span class='kw'>R0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R0</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; Method: Moment estimator
 #&gt; 
-#&gt; Estimated proportion: 2.8629%
-#&gt; Standard error      : 0.3491%
+#&gt; Estimated proportion: 2.8667%
+#&gt; Standard error      : 0.3495%
 #&gt; 
 #&gt; Confidence intervals with gamma = 0.05:
-#&gt; Asymptotic Approach: 2.1787% - 3.5471%
+#&gt; Asymptotic Approach: 2.1817% - 3.5516%
 #&gt; Clopper–Pearson    : 2.2439% - 3.6866%
 #&gt; 
 #&gt; Assumed measurement error: alpha0 = 0%, alpha = 0%, 
@@ -205,25 +201,25 @@ as well as the Clopper–Pearson approach.</p>
 <span class='co'># With measurement error</span>
 <span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sim_Rs.html'>sim_Rs</a></span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>30</span>/<span class='fl'>1000</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='fl'>10</span>/<span class='fl'>1000</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1500</span>, <span class='kw'>alpha0</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
 <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta0</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>)
-<span class='fu'>mle</span>(<span class='kw'>R0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R0</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; Method: MLE
+<span class='fu'>moment_estimator</span>(<span class='kw'>R0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R0</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; Method: Moment estimator
 #&gt; 
 #&gt; Estimated proportion: 3.4000%
-#&gt; Standard error      : 0.3951%
+#&gt; Standard error      : 0.3952%
 #&gt; 
 #&gt; Confidence intervals with gamma = 0.05:
-#&gt; Asymptotic Approach: 2.6256% - 4.1744%
+#&gt; Asymptotic Approach: 2.6255% - 4.1745%
 #&gt; Clopper–Pearson    : 2.6865% - 4.3072%
 #&gt; 
 #&gt; Assumed measurement error: alpha0 = 0%, alpha = 0%, 
-#&gt;                            beta0  = 0%, beta  = 0% </div><div class='input'><span class='fu'>mle</span>(<span class='kw'>R0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R0</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>, <span class='kw'>alpha0</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta0</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; Method: MLE
+#&gt;                            beta0  = 0%, beta  = 0% </div><div class='input'><span class='fu'>moment_estimator</span>(<span class='kw'>R0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R0</span>, <span class='kw'>R</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>R</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>pi0</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='no'>X</span>$<span class='no'>n</span>, <span class='kw'>alpha0</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
+<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta0</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; Method: Moment estimator
 #&gt; 
-#&gt; Estimated proportion: 2.8630%
-#&gt; Standard error      : 0.3785%
+#&gt; Estimated proportion: 2.8225%
+#&gt; Standard error      : 0.3818%
 #&gt; 
 #&gt; Confidence intervals with gamma = 0.05:
-#&gt; Asymptotic Approach: 2.1212% - 3.6048%
-#&gt; Clopper–Pearson    : 2.0507% - 3.7924%
+#&gt; Asymptotic Approach: 2.0742% - 3.5708%
+#&gt; Clopper–Pearson    : 2.0558% - 3.7974%
 #&gt; 
 #&gt; Assumed measurement error: alpha0 = 1%, alpha = 1%, 
 #&gt;                            beta0  = 5%, beta  = 5% </div></pre>

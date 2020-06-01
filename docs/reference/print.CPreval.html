@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Compute proportion in the survey sample — survey_sample • CPreval</title>
+<title>Print sample survey — print.CPreval • CPreval</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Compute proportion in the survey sample — survey_sample" />
-<meta property="og:description" content="Proportion estimated using the survey sample and confidence intervals based on the Clopper–Pearson approach." />
+<meta property="og:title" content="Print sample survey — print.CPreval" />
+<meta property="og:description" content="Simple print function for the sample survey estimator" />
 
 
 
@@ -105,64 +105,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Compute proportion in the survey sample</h1>
+    <h1>Print sample survey</h1>
     
-    <div class="hidden name"><code>survey_sample.Rd</code></div>
+    <div class="hidden name"><code>print.CPreval.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Proportion estimated using the survey sample and confidence intervals based on the Clopper–Pearson approach.</p>
+    <p>Simple print function for the sample survey estimator</p>
     </div>
 
-    <pre class="usage"><span class='fu'>survey_sample</span>(<span class='no'>R</span>, <span class='no'>n</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for CPreval</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>R</th>
-      <td><p>A <code>numeric</code> that provides the people of positive people in the sample.</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>A <code>numeric</code> that provides the sample size.</p></td>
-    </tr>
-    <tr>
-      <th>alpha</th>
-      <td><p>A <code>numeric</code> that provides the False Negative (FN) rate for the sample R. Default value is <code>0</code>.</p></td>
-    </tr>
-    <tr>
-      <th>gamma</th>
-      <td><p>A <code>numeric</code> that used to compute a (1 - gamma) confidence region for the proportion. Default value is <code>0.05</code>.</p></td>
+      <th>x</th>
+      <td><p>A <code>CPreval</code> object</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments.</p></td>
-    </tr>
-    <tr>
-      <th>beta0</th>
-      <td><p>A <code>numeric</code> that provides the False Positive (FP) rate for the sample R. Default value is <code>0</code>.</p></td>
+      <td><p>Further arguments passed to or from other methods</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>CPreval</code> object with the structure:</p><ul>
-<li><p>estimate: Estimated proportion</p></li>
-<li><p>sd: Estimated standard error of the estimator</p></li>
-<li><p>ci_asym: Asymptotic confidence interval</p></li>
-<li><p>ci_cp: Confidence interval based on the Clopper–Pearson approach</p></li>
-<li><p>gamma: Confidence level (i.e. 1 - gamma) for confidence interval</p></li>
-<li><p>method: Estimation method (in this case sample survey)</p></li>
-<li><p>measurement: A vector with (alpha0, alpha, beta0, beta)</p></li>
-<li><p>...: Additional parameters</p></li>
-</ul>
-
+    <p>Prints the sample survey</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Samples without measurement error</span>
-<span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sim_Rs.html'>sim_Rs</a></span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>30</span>/<span class='fl'>1000</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='fl'>10</span>/<span class='fl'>1000</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1500</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>)
-<span class='fu'>survey_sample</span>(<span class='no'>X</span>$<span class='no'>R</span>, <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; Method: Survey sample
+    <pre class="examples"><div class='input'><span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sim_Rs.html'>sim_Rs</a></span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>3</span>/<span class='fl'>100</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='fl'>1</span>/<span class='fl'>100</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1500</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>)
+<span class='fu'><a href='survey_sample.html'>survey_sample</a></span>(<span class='no'>X</span>$<span class='no'>R</span>, <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; Method: Survey sample
 #&gt; 
 #&gt; Estimated proportion: 2.6667%
 #&gt; Standard error      : 0.4160%
@@ -172,30 +146,6 @@
 #&gt; Clopper–Pearson    : 1.9118% - 3.6137%
 #&gt; 
 #&gt; Assumed measurement error: alpha = 0%, beta = 0% 
-#&gt; </div><div class='input'>
-<span class='co'># With measurement error</span>
-<span class='no'>X</span> <span class='kw'>=</span> <span class='fu'><a href='sim_Rs.html'>sim_Rs</a></span>(<span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>30</span>/<span class='fl'>1000</span>, <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='fl'>10</span>/<span class='fl'>1000</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>1500</span>, <span class='kw'>alpha0</span> <span class='kw'>=</span> <span class='fl'>0.01</span>,
-<span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta0</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>)
-<span class='fu'>survey_sample</span>(<span class='no'>X</span>$<span class='no'>R</span>, <span class='no'>X</span>$<span class='no'>n</span>)</div><div class='output co'>#&gt; Method: Survey sample
-#&gt; 
-#&gt; Estimated proportion: 3.4000%
-#&gt; Standard error      : 0.4679%
-#&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
-#&gt; Asymptotic Approach: 2.4829% - 4.3171%
-#&gt; Clopper–Pearson    : 2.5418% - 4.4463%
-#&gt; 
-#&gt; Assumed measurement error: alpha = 0%, beta = 0% 
-#&gt; </div><div class='input'><span class='fu'>survey_sample</span>(<span class='no'>X</span>$<span class='no'>R</span>, <span class='no'>X</span>$<span class='no'>n</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; Method: Survey sample
-#&gt; 
-#&gt; Estimated proportion: 2.6170%
-#&gt; Standard error      : 0.4679%
-#&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
-#&gt; Asymptotic Approach: 1.6999% - 3.5342%
-#&gt; Clopper–Pearson    : 1.6402% - 3.6663%
-#&gt; 
-#&gt; Assumed measurement error: alpha = 1%, beta = 5% 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

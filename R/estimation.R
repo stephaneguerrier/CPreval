@@ -3,14 +3,14 @@
 #' @param R        A \code{numeric} that provides the people of positive people in the sample.
 #' @param n        A \code{numeric} that provides the sample size.
 #' @param alpha    A \code{numeric} that provides the False Negative (FN) rate for the sample R. Default value is \code{0}.
-#' @param beta0     A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.
+#' @param beta0    A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.
 #' @param gamma    A \code{numeric} that used to compute a (1 - gamma) confidence region for the proportion. Default value is \code{0.05}.
 #' @param ...      Additional arguments.
 #' @return A \code{CPreval} object with the structure:
 #' \itemize{
 #'  \item estimate: Estimated proportion
 #'  \item sd: Estimated standard error of the estimator
-#'  \item ci_asy: Asymptotic confidence interval
+#'  \item ci_asym: Asymptotic confidence interval
 #'  \item ci_cp: Confidence interval based on the Clopper–Pearson approach
 #'  \item gamma: Confidence level (i.e. 1 - gamma) for confidence interval
 #'  \item method: Estimation method (in this case sample survey)
@@ -103,7 +103,7 @@ print.CPreval = function(x, ...){
     cat("%, alpha = ")
     cat(100*x$measurement[2])
     cat("%, \n")
-    cat("                          beta0  = ")
+    cat("                           beta0  = ")
     cat(100*x$measurement[3])
     cat("%, beta  = ")
     cat(100*x$measurement[4])
@@ -128,7 +128,7 @@ print.CPreval = function(x, ...){
 #' \itemize{
 #'  \item estimate: Estimated proportion
 #'  \item sd: Estimated standard error of the estimator
-#'  \item ci_asy: Asymptotic confidence interval
+#'  \item ci_asym: Asymptotic confidence interval
 #'  \item ci_cp: Confidence interval based on the Clopper–Pearson approach
 #'  \item gamma: Confidence level (i.e. 1 - gamma) for confidence interval
 #'  \item method: Estimation method (in this case sample survey)
@@ -203,3 +203,98 @@ moment_estimator = function(R0, R, pi0, n, alpha0 = 0, alpha = 0, beta0 = 0, bet
   class(out) = "CPreval"
   out
 }
+
+#' @title Negative Log-Likelihood function based on R0 and R
+#' @description Log-Likelihood function based on R0 and R multiplied by -1.
+#' @param pi2       A \code{numeric} value for p0.
+#' @param R0        A \code{numeric} that provides the people of positive people in the sample that were known to be positive.
+#' @param R         A \code{numeric} that provides the people of positive people in the sample.
+#' @param n         A \code{numeric} that provides the sample size.
+#' @param alpha0    A \code{numeric} that provides the False Negative (FN) rate for the sample R0. Default value is \code{0}.
+#' @param alpha     A \code{numeric} that provides the False Negative (FN) rate for the sample R. Default value is \code{0}.
+#' @param beta0     A \code{numeric} that provides the False Positive (FP) rate for the sample R0. Default value is \code{0}.
+#' @param beta      A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.
+#' @param ...       Additional arguments.
+#' @return Negative Log-Likelihood
+#' @author Stephane Guerrier
+neg_log_like = function(pi2, R, R0, pi0, n, alpha0, alpha, beta0, beta, ...){
+  # Define Deltas
+  Delta1 = 1 - alpha0 - beta0
+  Delta2 = 1 - alpha - beta
+
+  # Define modified probs
+  pi2_star = pi2*Delta2 + alpha
+  pi_star = pi0/pi2*Delta1 + alpha0
+
+  # Log likelihood times (-1)
+  -(R*log(pi2_star) + (n - R)*log(1 - pi2_star) + R0*log(pi_star) + (R - R0)*log(1 - pi_star))
+}
+
+#' @title Compute MLE based on R0 and R
+#' @description Proportion estimated using the MLE and confidence intervals based the asymptotic distribution of the estimator
+#' as well as the Clopper–Pearson approach.
+#' @param R0        A \code{numeric} that provides the people of positive people in the sample that were known to be positive.
+#' @param R         A \code{numeric} that provides the people of positive people in the sample.
+#' @param n         A \code{numeric} that provides the sample size.
+#' @param alpha0    A \code{numeric} that provides the False Negative (FN) rate for the sample R0. Default value is \code{0}.
+#' @param alpha     A \code{numeric} that provides the False Negative (FN) rate for the sample R. Default value is \code{0}.
+#' @param beta0     A \code{numeric} that provides the False Positive (FP) rate for the sample R0. Default value is \code{0}.
+#' @param beta      A \code{numeric} that provides the False Positive (FP) rate for the sample R. Default value is \code{0}.
+#' @param gamma     A \code{numeric} that used to compute a (1 - gamma) confidence region for the proportion. Default value is \code{0.05}.
+#' @param ...       Additional arguments.
+#' @return A \code{CPreval} object with the structure:
+#' \itemize{
+#'  \item estimate: Estimated proportion
+#'  \item sd: Estimated standard error of the estimator
+#'  \item ci_asym: Asymptotic confidence interval
+#'  \item ci_cp: Confidence interval based on the Clopper–Pearson approach
+#'  \item gamma: Confidence level (i.e. 1 - gamma) for confidence interval
+#'  \item method: Estimation method (in this case sample survey)
+#'  \item measurement: A vector with (alpha0, alpha, beta0, beta)
+#'  \item ...: Additional parameters
+#' }
+#' @export
+#' @author Stephane Guerrier
+#' @examples
+#' # Samples without measurement error
+#' X = sim_Rs(p = 3/100, pi0 = 1/100, n = 1500, seed = 18)
+#' mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n)
+#'
+#' # With measurement error
+#' X = sim_Rs(p = 30/1000, pi0 = 10/1000, n = 1500, alpha0 = 0.01,
+#' alpha = 0.01, beta0 = 0.05, beta = 0.05, seed = 18)
+#' mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n)
+#' mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n, alpha0 = 0.01,
+#' alpha = 0.01, beta0 = 0.05, beta = 0.05)
+mle = function(R0, R, pi0, n, alpha0 = 0, alpha = 0,
+               beta0 = 0, beta = 0, gamma = 0.05, ...){
+
+
+  if (max(alpha0, alpha, beta0, beta) > 0){
+    estimate = optimize(neg_log_like, c(pi0, 0.9999), tol = 0.000001, R = R, R0 = R0,
+                        pi0 = pi0, n = n, alpha0 = alpha0, alpha = alpha,
+                        beta0 = beta0, beta = beta)$minimum
+    I_fisher = (n*(alpha + beta - 1)^2)/(alpha*estimate - estimate - alpha + beta*estimate + 1) + (n*(alpha + beta - 1)^2)/(alpha + estimate - alpha*estimate - beta*estimate) + (n*pi0^2*(alpha0 + beta0 - 1)^2*(alpha + estimate - alpha*estimate - beta*estimate))/(estimate^3*(estimate - pi0 + alpha0*pi0 - alpha0*estimate + beta0*pi0)) + (n*pi0^2*(alpha0 + beta0 - 1)^2*(alpha + estimate - alpha*estimate - beta*estimate))/(estimate^3*(pi0 - alpha0*pi0 + alpha0*estimate - beta0*pi0))
+    sd = 1/sqrt(I_fisher)
+    ci_asym = estimate + c(-1, 1)*qnorm(1 - gamma/2)*sd
+  }else{
+    estimate = pi0*(n - R)/(n - R0) + (R - R0)/(n - R0)
+    sd = sqrt(((estimate - pi0)*(1 - estimate))/(n*(1 - pi0)))
+    ci_asym = estimate + c(-1, 1)*qnorm(1 - gamma/2)*sd
+  }
+
+  I2 = qbeta(p = 1 - gamma/2, R - R0 + 1, n - R + R0)
+  I1 = qbeta(p = gamma/2, R - R0, n - R + R0 + 1)
+  Delta1 = 1 - alpha0 - beta0
+  Delta2 = 1 - alpha - beta
+  dlt = pi0*Delta1*(Delta2 + alpha/estimate)
+  lower = ((I1 + dlt)/(1 - alpha0) - alpha)/Delta2
+  upper = ((I2 + dlt)/(1 - alpha0) - alpha)/Delta2
+  ci_cp = c(lower, upper)
+
+  out = list(estimate = estimate, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
+             method = "MLE", measurement = c(alpha0, alpha, beta0, beta), ...)
+  class(out) = "CPreval"
+  out
+}
+

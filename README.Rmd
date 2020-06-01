@@ -30,6 +30,58 @@ install.packages("devtools")
 devtools::install_github("stephaneguerrier/CPreval")
 ```
 
+## Example
+
+Consider the following data:
+
+```{r}
+seed = 18
+n    = 1500
+p0   = 3/100
+pi0  = 1/100
+(X = sim_Rs(p = p0, pi0 = pi0, n = n, seed = seed))
+```
+
+Estimators:
+
+```{r}
+survey_sample(X$R, X$n)
+moment_estimator(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n)
+mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n)
+```
+
+With measurement error:
+
+```{r}
+alpha0 = 1/100
+alpha  = 1/100
+beta0  = 6/100
+beta   = 6/100
+(X = sim_Rs(p = p0, pi0 = pi0, n = n, seed = seed,
+           alpha = alpha, alpha0 = alpha0, 
+           beta = beta, beta0 = beta0))
+```
+
+Without taking into account measurement error:
+
+```{r}
+survey_sample(X$R, X$n)
+moment_estimator(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n)
+mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n)
+```
+
+Taking into account measurement error:
+
+```{r}
+survey_sample(X$R, X$n, alpha = alpha, beta = beta)
+moment_estimator(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n, 
+                 alpha = alpha, alpha0 = alpha0, 
+                 beta = beta, beta0 = beta0)
+mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n, 
+                 alpha = alpha, alpha0 = alpha0, 
+                 beta = beta, beta0 = beta0)
+```
+
 ## License
 
 The license this source code is released under is the GNU AFFERO GENERAL PUBLIC LICENSE (AGPL) v3.0. Please see the LICENSE file for full text. Otherwise, please consult [TLDR Legal](https://tldrlegal.com/license/gnu-affero-general-public-license-v3-(agpl-3.0)) or [GNU](https://www.gnu.org/licenses/agpl-3.0.en.html) which will provide a synopsis of the restrictions placed upon the code.

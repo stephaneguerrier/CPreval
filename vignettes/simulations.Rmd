@@ -35,19 +35,19 @@ seed = 1832
 
 # Simulation settings
 simu = data.frame(Simulation = 1:24,
-                  pi2 = 100*rep(c(1/800, 1.5/100, 1.5/10, 5/10), 6),
-                  pi1 = 100*rep(c(1/1000, 1/100, 1/10, 3/10), 6),
+                  p0 = 100*rep(c(1/800, 1.5/100, 1.5/10, 5/10), 6),
+                  pi0 = 100*rep(c(1/1000, 1/100, 1/10, 3/10), 6),
                   n = rep(c(rep(1500, 4), rep(4000, 4)), 3),
                   alpha = 100*c(rep(0, 8), rep(0, 8), rep(0.01,8)),
                   beta = 100*c(rep(0, 8), rep(0.02,8), rep(0.02,8)))
  
 # Print table
 kable(simu, col.names = c("Simulation ID",
-                           "$\\pi_2$ (%)",
-                           "$\\pi_1$ (%)",
+                           "$p_0$ (%)",
+                           "$\\pi_0$ (%)",
                            "Sample size $n$",
-                           "$\\alpha_1 = \\alpha_2$ (%)",
-                           "$\\beta_1 = \\beta_2$ (%)")) %>%
+                           "$\\alpha_0 = \\alpha$ (%)",
+                           "$\\beta_0 = \\beta$ (%)")) %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
@@ -55,34 +55,60 @@ The code for the simulation is given here:
 
 ```{r simu, warning = FALSE}
 # Initialisation      
-error_survey = length_ci_survey = coverage_survey = 
-  error_mod_mle = length_ci_mod_mle = coverage_mod_mle =
-  error_mle = length_ci_mle = coverage_mle =
-  length_ci_mle2 = coverage_mle2 = matrix(NA, B, 24)  
+error_survey = length_asym_survey = length_cp_survey = coverage_asym_survey = coverage_cp_survey = 
+  error_moment = length_asym_moment = length_cp_moment = coverage_asym_moment = coverage_cp_moment = 
+  error_mle = length_asym_mle = length_cp_mle = coverage_asym_mle = coverage_cp_mle = matrix(NA, B, 24)  
   
 # Start Monte-Carlo 
 for (j in 1:24){
   for (i in 1:B){
-    X = sim_Rs(pi2 = simu$pi2[j]/100, pi1 = simu$pi1[j]/100, n = simu$n[j], seed = seed + i,
-               alpha1 = simu$alpha[j]/100, alpha2 = simu$alpha[j]/100,
-               beta1 = simu$beta[j]/100, beta2 = simu$beta[j]/100)
+    X = sim_Rs(p = simu$p0[j]/100, pi0 = simu$pi0[j]/100, n = simu$n[j], seed = seed + i,
+               alpha0 = simu$alpha[j]/100, alpha = simu$alpha[j]/100,
+               beta0 = simu$beta[j]/100, beta = simu$beta[j]/100)
     
-    survey = survey_sample(R2 = X$R2, n = X$n, alpha2 = X$alpha2, beta2 = X$beta2)
-    error_survey[i,j] = survey$estimate - simu$pi2[j]/100
-    length_ci_survey[i,j] = survey$ci[2] - survey$ci[1]
-    coverage_survey[i,j] = survey$ci[1] < simu$pi2[j]/100 && survey$ci[2] > simu$pi2[j]/100
+    # Fit survey sample estimator
+    survey = survey_sample(R = X$R, n = X$n, alpha = X$alpha, beta = X$beta)
+    
+    # Estimation error
+    error_survey[i,j] = survey$estimate - simu$p0[j]/100
+    
+    # Length of CI
+    length_asym_survey[i,j] = survey$ci_asym[2] - survey$ci_asym[1]
+    length_cp_survey[i,j] = survey$ci_cp[2] - survey$ci_cp[1]
+    
+    # Coverge
+    coverage_asym_survey[i,j] = survey$ci_asym[1] < simu$p0[j]/100 && survey$ci_asym[2] > simu$p0[j]/100
+    coverage_cp_survey[i,j]   = survey$ci_cp[1] < simu$p0[j]/100 && survey$ci_cp[2] > simu$p0[j]/100
       
-    mod_mle = modified_mle(R1 = X$R1, X$R2, n = X$n, pi1 = X$pi1, alpha1 = X$alpha1, alpha2 = X$alpha2, beta1 = X$beta1, beta2 = X$beta2)
-    error_mod_mle[i,j] = mod_mle$estimate - simu$pi2[j]/100
-    length_ci_mod_mle[i,j] = mod_mle$ci[2] - mod_mle$ci[1]
-    coverage_mod_mle[i,j] = mod_mle$ci[1] < simu$pi2[j]/100 && mod_mle$ci[2] > simu$pi2[j]/100
-     
-    res_mle = mle(R1 = X$R1, X$R2, n = X$n, pi1 = X$pi1, alpha1 = X$alpha1, alpha2 = X$alpha2, beta1 = X$beta1, beta2 = X$beta2)
-    error_mle[i,j] = res_mle$estimate - simu$pi2[j]/100
-    length_ci_mle[i,j] = res_mle$ci[2] - res_mle$ci[1]
-    length_ci_mle2[i,j] = res_mle$ci2[2] - res_mle$ci2[1]
-    coverage_mle[i,j] = res_mle$ci[1] < simu$pi2[j]/100 && res_mle$ci[2] > simu$pi2[j]/100
-    coverage_mle2[i,j] = res_mle$ci2[1] < simu$pi2[j]/100 && res_mle$ci2[2] > simu$pi2[j]/100
+    # Moment estimator
+    moment = moment_estimator(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n, alpha0 = X$alpha0, 
+                              alpha = X$alpha, beta0 = X$beta0, beta = X$beta)
+    
+    # Estimation error
+    error_moment[i,j] = moment$estimate - simu$p0[j]/100
+    
+    # Length of CI
+    length_asym_moment[i,j] = moment$ci_asym[2] - moment$ci_asym[1]
+    length_cp_moment[i,j] = moment$ci_cp[2] - moment$ci_cp[1]
+    
+    # Coverge
+    coverage_asym_moment[i,j] = moment$ci_asym[1] < simu$p0[j]/100 && moment$ci_asym[2] > simu$p0[j]/100
+    coverage_cp_moment[i,j]   = moment$ci_cp[1] < simu$p0[j]/100 && moment$ci_cp[2] > simu$p0[j]/100
+    
+    # MLE
+    ml = mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n, alpha0 = X$alpha0, 
+                              alpha = X$alpha, beta0 = X$beta0, beta = X$beta)
+    
+    # Estimation error
+    error_mle[i,j] = ml$estimate - simu$p0[j]/100
+    
+    # Length of CI
+    length_asym_mle[i,j] = ml$ci_asym[2] - ml$ci_asym[1]
+    length_cp_mle[i,j] = ml$ci_cp[2] - ml$ci_cp[1]
+    
+    # Coverge
+    coverage_asym_mle[i,j] = ml$ci_asym[1] < simu$p0[j]/100 && ml$ci_asym[2] > simu$p0[j]/100
+    coverage_cp_mle[i,j]   = ml$ci_cp[1] < simu$p0[j]/100 && ml$ci_cp[2] > simu$p0[j]/100
   } 
 }
 ```
@@ -97,7 +123,7 @@ nb_settings = tail(simu$Simulation, n=1)
 cols = hcl(h = seq(15, 375, length = 4), l = 65, c = 100)[1:3]
 
 rmse_survey = apply(error_survey, 2, RMSE)
-rmse_mod_mle = apply(error_mod_mle, 2, RMSE)
+rmse_moment = apply(error_moment, 2, RMSE)
 rmse_mle = apply(error_mle, 2, RMSE)
 
 plot(NA, xlim = c(1,nb_settings), ylim = c(0, 0.0185), xlab = "Simulation ID", 
@@ -123,17 +149,58 @@ abline(v = 1:nb_settings, col = "grey80", lty = 3)
 abline(h = (0:3)*0.005, col = "grey80", lty = 3)
 box()
 lines(1:nb_settings, rmse_survey, col = cols[1], pch = 15, type = "b")
-lines(1:nb_settings, rmse_mod_mle, col = cols[2], pch = 16, type = "b")
+lines(1:nb_settings, rmse_moment, col = cols[2], pch = 16, type = "b")
 lines(1:nb_settings, rmse_mle, col = cols[3], pch = 1, type = "b")
-legend("topright", c("Survey Sample", "Modified MLE", "MLE"), col = cols,
+legend("topright", c("Survey Sample", "Moment Estimator", "MLE"), col = cols,
        pch = c(15, 16, 1), lwd = 1, bty = "n")
 ```
 
 ```{r, fig.align='center', fig.width=9, fig.height=6}
-cov_survey = apply(coverage_survey, 2, mean)
-cov_mod_mle = apply(na.omit(coverage_mod_mle), 2, mean)
-cov_mle = apply(na.omit(coverage_mle), 2, mean)
-cov_mle2 = apply(na.omit(coverage_mle2), 2, mean)
+RMSE = function(x)
+  sqrt(mean(x)^2 + var(x))
+
+nb_settings = tail(simu$Simulation, n=1)
+cols = hcl(h = seq(15, 375, length = 4), l = 65, c = 100)[1:3]
+
+rmse_survey = apply(error_survey, 2, RMSE)
+rmse_moment = apply(error_moment, 2, RMSE)
+rmse_mle = apply(error_mle, 2, RMSE)
+
+plot(NA, xlim = c(1,nb_settings), ylim = c(0.00007, 0.05), xlab = "Simulation ID", 
+     ylab = "RMSE", axes = FALSE, log = "y")
+rect(0.5, 0.00001, 4.5, 1, col = "grey95", border = "grey95")
+rect(8.5, 0.00001, 12.5, 1, col = "grey95", border = "grey95")
+rect(16.5, 0.00001, 20.5, 1, col = "grey95", border = "grey95")
+text(2.5, 0.00008, "n = 1500")
+text(6.5, 0.00008, "n = 4000")
+text(10.5, 0.00008, "n = 1500")
+text(14.5, 0.00008, "n = 4000")
+text(18.5, 0.00008, "n = 1500")
+text(22.5, 0.00008, "n = 4000")
+text(4.5, 0.018, "without measurement error")
+text(12.5, 0.018, "with false positive")
+text(20.5, 0.018, "with false positive and negative")
+abline(v = 8.5, lwd = 2, lty = 2)
+abline(v = 16.5, lwd = 2, lty = 2)
+axis(1, 1:nb_settings)
+axis(2)
+grid()
+abline(v = 1:nb_settings, col = "grey80", lty = 3)
+box()
+lines(1:nb_settings, rmse_survey, col = cols[1], pch = 15, type = "b")
+lines(1:nb_settings, rmse_moment, col = cols[2], pch = 16, type = "b")
+lines(1:nb_settings, rmse_mle, col = cols[3], pch = 1, type = "b")
+legend("topright", c("Survey Sample", "Moment Estimator", "MLE"), col = cols,
+       pch = c(15, 16, 1), lwd = 1, bty = "n")
+```
+
+```{r, fig.align='center', fig.width=9, fig.height=6}
+cov_survey_asym = apply(coverage_asym_survey, 2, mean)
+cov_survey_cp   = apply(coverage_cp_survey, 2, mean)
+cov_moment_asym = apply(na.omit(coverage_asym_moment), 2, mean)
+cov_moment_cp   = apply(coverage_cp_moment, 2, mean)
+cov_mle_asym    = apply(coverage_asym_mle, 2, mean)
+cov_mle_cp      = apply(coverage_cp_mle, 2, mean)
 
 plot(NA, xlim = c(1,nb_settings), ylim = c(0.28, 1.03), xlab = "Simulation ID", 
      ylab = "Coverage", axes = FALSE)
@@ -158,22 +225,69 @@ grid()
 abline(v = 1:nb_settings, col = "grey80", lty = 3)
 abline(h = (0:10)*0.1, col = "grey80", lty = 3)
 box()
-lines(1:nb_settings, cov_survey, col = cols[1], pch = 15, type = "b")
-lines(1:nb_settings, cov_mod_mle, col = cols[2], pch = 16, type = "b")
-lines(1:nb_settings, cov_mle, col = cols[3], pch = 1, type = "b")
-lines(1:nb_settings, cov_mle2, col = cols[3], pch = 2, type = "b")
-legend(19, 0.7, c("Survey Sample", "Modified MLE", "MLE", "MLE2"), col = cols[c(1,2,3,3)],
-       pch = c(15, 16, 1,2), lwd = 1, bty = "n")
+lines(1:nb_settings, cov_survey_asym, col = cols[1], pch = 15, type = "b")
+lines(1:nb_settings, cov_survey_cp, col = cols[1], pch = 0, type = "b")
+
+lines(1:nb_settings, cov_moment_asym, col = cols[2], pch = 16, type = "b")
+lines(1:nb_settings, cov_moment_cp, col = cols[2], pch = 1, type = "b")
+
+lines(1:nb_settings, cov_mle_asym, col = cols[3], pch = 17, type = "b")
+lines(1:nb_settings, cov_mle_cp, col = cols[3], pch = 2, type = "b")
+
+legend(16.5, 0.75, c("Survey Sample - Asymptotic", "Survey Sample - CP", 
+                     "Moment Estim. - Asymptotic", "Moment Estim. - CP", 
+                     "MLE - Asymptotic", "MLE - CP"), 
+       col = cols[rep(1:3, each = 2)], pch = c(15, 0, 16, 1, 17, 2), lwd = 1, bty = "n")
+```
+
+ZOOM:
+
+```{r, fig.align='center', fig.width=9, fig.height=6}
+plot(NA, xlim = c(1,nb_settings), ylim = c(0.89, 1.01), xlab = "Simulation ID", 
+     ylab = "Coverage", axes = FALSE)
+rect(0.5, -0.5, 4.5, 2.5, col = "grey95", border = "grey95")
+rect(8.5, -0.5, 12.5, 2.5, col = "grey95", border = "grey95")
+rect(16.5, -0.5, 20.5, 2.5, col = "grey95", border = "grey95")
+text(2.5, 0.3, "n = 1500")
+text(6.5, 0.3, "n = 4000")
+text(10.5, 0.3, "n = 1500")
+text(14.5, 0.3, "n = 4000")
+text(18.5, 0.3, "n = 1500")
+text(22.5, 0.3, "n = 4000")
+abline(v = 8.5, lwd = 2, lty = 2)
+abline(v = 16.5, lwd = 2, lty = 2)
+abline(h = 0.95, lwd = 2)
+axis(1, 1:nb_settings)
+axis(2)
+grid()
+abline(v = 1:nb_settings, col = "grey80", lty = 3)
+abline(h = (0:10)*0.01, col = "grey80", lty = 3)
+box()
+lines(1:nb_settings, cov_survey_asym, col = cols[1], pch = 15, type = "b")
+lines(1:nb_settings, cov_survey_cp, col = cols[1], pch = 0, type = "b")
+
+lines(1:nb_settings, cov_moment_asym, col = cols[2], pch = 16, type = "b")
+lines(1:nb_settings, cov_moment_cp, col = cols[2], pch = 1, type = "b")
+
+lines(1:nb_settings, cov_mle_asym, col = cols[3], pch = 17, type = "b")
+lines(1:nb_settings, cov_mle_cp, col = cols[3], pch = 2, type = "b")
 ```
 
 
 ```{r, fig.align='center', fig.width=9, fig.height=6}
-len_survey = apply(length_ci_survey, 2, mean)
-len_mod_mle = apply(na.omit(length_ci_mod_mle), 2, mean)
-len_mle = apply(na.omit(length_ci_mle), 2, mean)
-len_mle2 = apply(na.omit(length_ci_mle2), 2, mean)
 
-plot(NA, xlim = c(1,nb_settings), ylim = c(0, max(len_survey)), xlab = "Simulation ID", 
+
+len_asym_survey = apply(length_asym_survey, 2, mean)
+len_cp_survey = apply(length_cp_survey, 2, mean)
+
+len_asym_moment = apply(na.omit(length_asym_moment), 2, mean)
+len_cp_moment = apply(length_cp_moment, 2, mean)
+
+len_asym_mle = apply(length_asym_mle, 2, mean)
+len_cp_mle = apply(length_cp_mle, 2, mean)
+
+
+plot(NA, xlim = c(1,nb_settings), ylim = c(0, max(len_cp_survey)+0.0015), xlab = "Simulation ID", 
      ylab = "Mean - length of CI", axes = FALSE)
 rect(0.5, -0.5, 4.5, 2.5, col = "grey95", border = "grey95")
 rect(8.5, -0.5, 12.5, 2.5, col = "grey95", border = "grey95")
@@ -184,9 +298,9 @@ text(10.5, 0, "n = 1500")
 text(14.5, 0, "n = 4000")
 text(18.5, 0, "n = 1500")
 text(22.5, 0.3, "n = 4000")
-text(4.5, 0.05, "without measurement error")
-text(12.5, 0.05, "with false positive")
-text(20.5, 0.05, "with false positive and negative")
+text(4.5, 0.055, "without measurement error")
+text(12.5, 0.055, "with false positive")
+text(20.5, 0.055, "with false positive and negative")
 abline(v = 8.5, lwd = 2, lty = 2)
 abline(v = 16.5, lwd = 2, lty = 2)
 abline(h = 0.95, lwd = 2)
@@ -196,12 +310,12 @@ grid()
 abline(v = 1:nb_settings, col = "grey80", lty = 3)
 abline(h = (0:10)*0.1, col = "grey80", lty = 3)
 box()
-lines(1:nb_settings, len_survey, col = cols[1], pch = 15, type = "b")
-lines(1:nb_settings, len_mod_mle, col = cols[2], pch = 16, type = "b")
-lines(1:nb_settings, len_mle, col = cols[3], pch = 1, type = "b")
-lines(1:nb_settings, len_mle, col = cols[3], pch = 2, type = "b")
-legend(19, 0.7, c("Survey Sample", "Modified MLE", "MLE", "MLE-2"), col = cols[c(1,2,3,3)],
-       pch = c(15, 16, 1, 2), lwd = 1, bty = "n")
+lines(1:nb_settings, len_asym_survey, col = cols[1], pch = 15, type = "l")
+lines(1:nb_settings, len_cp_survey, col = cols[1], pch = 15, type = "l", lty = 2)
+lines(1:nb_settings, len_asym_moment, col = cols[2], pch = 15, type = "l")
+lines(1:nb_settings, len_cp_moment, col = cols[2], pch = 15, type = "l", lty = 2)
+lines(1:nb_settings, len_asym_mle, col = cols[3], pch = 15, type = "l")
+lines(1:nb_settings, len_cp_mle, col = cols[3], pch = 15, type = "l", lty = 2)
 ```
 
 # References
