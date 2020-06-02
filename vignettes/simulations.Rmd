@@ -58,7 +58,7 @@ The code for the simulation is given here:
 error_survey = length_asym_survey = length_cp_survey = coverage_asym_survey = coverage_cp_survey = 
   error_moment = length_asym_moment = length_cp_moment = coverage_asym_moment = coverage_cp_moment = 
   error_mle = length_asym_mle = length_cp_mle = coverage_asym_mle = coverage_cp_mle = matrix(NA, B, 24)  
-  
+   
 # Start Monte-Carlo 
 for (j in 1:24){
   for (i in 1:B){

@@ -3,5 +3,6 @@
 S3method(print,CPreval)
 export(mle)
 export(moment_estimator)
+export(plot_a)
 export(sim_Rs)
 export(survey_sample)

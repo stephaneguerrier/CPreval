@@ -35,7 +35,13 @@ survey_sample = function(R, n, alpha = 0, beta = 0, gamma = 0.05, ...){
 
   # Adjust for false positive/negative
   if (max(alpha, beta) > 0){
-    pi_bar = pi_bar/(1 - alpha - beta) - alpha
+    pi_bar = (pi_bar - alpha)/(1 - alpha - beta)
+  }
+
+  if (pi_bar < 0 || pi_bar > 1){
+    warning("The estimator has no (reliable) solution.")
+    return(invisible(list(estimate = NA, sd = NA, ci_asym = NA, ci_cp = NA, gamma = gamma,
+               method = "Survey sample", measurement = c(NA, alpha, NA, beta), ...)))
   }
 
   # Estimated standard error
@@ -77,9 +83,9 @@ print.CPreval = function(x, ...){
   cat("Standard error      : ")
   cat(sprintf("%.4f", 100*x$sd))
   cat("%\n\n")
-  cat("Confidence intervals with gamma = ")
-  cat(x$gamma)
-  cat(":\n")
+  cat("Confidence intervals at the ")
+  cat(100*(1 - x$gamma))
+  cat("% level:\n")
   cat("Asymptotic Approach: ")
   cat(sprintf("%.4f", 100*x$ci_asym[1]))
   cat("% - ")
@@ -196,6 +202,13 @@ moment_estimator = function(R0, R, pi0, n, alpha0 = 0, alpha = 0, beta0 = 0, bet
     lower = ((I1 + dlt)/(1 - alpha0) - alpha)/Delta
     upper = ((I2 + dlt)/(1 - alpha0) - alpha)/Delta
     ci_cp = c(lower, upper)
+  }
+
+  # Check estimator
+  if (estimate < 0 || estimate > 1){
+    warning("The estimator has no (reliable) solution.")
+    return(invisible(list(estimate = NA, sd = NA, ci_asym = NA, ci_cp = NA, gamma = gamma,
+              method = "Moment estimator", measurement = c(NA, alpha, NA, beta), ...)))
   }
 
   out = list(estimate = estimate, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,

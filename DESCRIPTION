@@ -16,8 +16,6 @@ Depends:
 License: AGPL-3 | file LICENSE
 RoxygenNote: 7.1.0
 Encoding: UTF-8
-Imports:
-    numDeriv
 Suggests:
     knitr,
     rmarkdown

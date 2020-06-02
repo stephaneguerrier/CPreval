@@ -13,10 +13,6 @@ mle(
   alpha = 0,
   beta0 = 0,
   beta = 0,
-  B = 100,
-  seed = 18,
-  eps = 10^(-6),
-  iter_max = 15,
   gamma = 0.05,
   ...
 )
