@@ -14,6 +14,7 @@ mle(
   beta0 = 0,
   beta = 0,
   gamma = 0.05,
+  simulation = FALSE,
   ...
 )
 }

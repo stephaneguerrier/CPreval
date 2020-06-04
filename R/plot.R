@@ -33,3 +33,9 @@ plot_a = function(pi0, alpha, alpha0, beta, beta0, ...){
        xlab = expression(pi), ylab = expression(p[0]))
   contour(my_pi, p0, A, add = TRUE)
 }
+
+#' @export
+gui = function(){
+  appDir = system.file("gui", package = "CPreval")
+  shiny::runApp(appDir, display.mode = "normal")
+}

@@ -4,7 +4,16 @@
 \alias{survey_sample}
 \title{Compute proportion in the survey sample}
 \usage{
-survey_sample(R, n, alpha = 0, beta = 0, gamma = 0.05, ...)
+survey_sample(
+  R,
+  n,
+  alpha = 0,
+  beta = 0,
+  gamma = 0.05,
+  pi0 = 0,
+  simulation = FALSE,
+  ...
+)
 }
 \arguments{
 \item{R}{A \code{numeric} that provides the people of positive people in the sample.}

@@ -82,6 +82,12 @@
   <a href="../articles/simulations.html">Simulation Study</a>
 </li>
 <li>
+  <a href="../articles/case_study.html">Case Study</a>
+</li>
+<li>
+  <a href="../articles/figures.html">Figures</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -114,7 +120,16 @@
     <p>Proportion estimated using the survey sample and confidence intervals based on the Clopper–Pearson approach.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>survey_sample</span>(<span class='no'>R</span>, <span class='no'>n</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.05</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>survey_sample</span>(
+  <span class='no'>R</span>,
+  <span class='no'>n</span>,
+  <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>pi0</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>simulation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,7 +182,7 @@
 #&gt; Estimated proportion: 2.6667%
 #&gt; Standard error      : 0.4160%
 #&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
+#&gt; Confidence intervals at the 95% level:
 #&gt; Asymptotic Approach: 1.8514% - 3.4820%
 #&gt; Clopper–Pearson    : 1.9118% - 3.6137%
 #&gt; 
@@ -181,18 +196,18 @@
 #&gt; Estimated proportion: 3.4000%
 #&gt; Standard error      : 0.4679%
 #&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
+#&gt; Confidence intervals at the 95% level:
 #&gt; Asymptotic Approach: 2.4829% - 4.3171%
 #&gt; Clopper–Pearson    : 2.5418% - 4.4463%
 #&gt; 
 #&gt; Assumed measurement error: alpha = 0%, beta = 0% 
 #&gt; </div><div class='input'><span class='fu'>survey_sample</span>(<span class='no'>X</span>$<span class='no'>R</span>, <span class='no'>X</span>$<span class='no'>n</span>, <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0.01</span>, <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0.05</span>)</div><div class='output co'>#&gt; Method: Survey sample
 #&gt; 
-#&gt; Estimated proportion: 2.6170%
-#&gt; Standard error      : 0.4679%
+#&gt; Estimated proportion: 2.5532%
+#&gt; Standard error      : 0.4073%
 #&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
-#&gt; Asymptotic Approach: 1.6999% - 3.5342%
+#&gt; Confidence intervals at the 95% level:
+#&gt; Asymptotic Approach: 1.7550% - 3.3514%
 #&gt; Clopper–Pearson    : 1.6402% - 3.6663%
 #&gt; 
 #&gt; Assumed measurement error: alpha = 1%, beta = 5% 

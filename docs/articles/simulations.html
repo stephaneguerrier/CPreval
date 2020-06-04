@@ -41,6 +41,12 @@
   <a href="../articles/simulations.html">Simulation Study</a>
 </li>
 <li>
+  <a href="../articles/case_study.html">Case Study</a>
+</li>
+<li>
+  <a href="../articles/figures.html">Figures</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -74,10 +80,7 @@
 
     
     
-<div id="simulation-point-estimation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#simulation-point-estimation" class="anchor"></a>Simulation: Point Estimation</h1>
-<p>In this simulation study, we compare the performance of the three estimators considered in <span class="citation">Guerrier, Kuzmics, and Victoria-Feser (2020)</span>, namely the sample survey, <span class="math inline">\(\bar{\pi}_2\)</span>, the MLE <span class="math inline">\(\hat{\pi}_2\)</span> as well as the <em>modified</em> MLE <span class="math inline">\(\tilde{\pi}_2\)</span>. All simulation results are based on <span class="math inline">\(B = 2500\)</span> Monte-Carlo replications and we consider 12 simulation settings, which are presented in the table below:</p>
+<p>In this simulation study, we compare the performance of the three estimators considered in <span class="citation">Guerrier, Kuzmics, and Victoria-Feser (2020)</span>, namely the sample survey, <span class="math inline">\(\bar{\pi}\)</span>, the MLE <span class="math inline">\(\hat{\pi}\)</span> as well as the moment estimator <span class="math inline">\(\tilde{\pi}\)</span>. All simulation results are based on <span class="math inline">\(B = 10^4\)</span> Monte-Carlo replications and we consider 24 simulation settings, which are presented in the table below:</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="co"># Load package</span>
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">CPreval</span>)
 
@@ -89,9 +92,9 @@
 
 <span class="co"># Simulation settings</span>
 <span class="no">simu</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">Simulation</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">24</span>,
-                  <span class="kw">p0</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>/<span class="fl">800</span>, <span class="fl">1.5</span>/<span class="fl">100</span>, <span class="fl">1.5</span>/<span class="fl">10</span>, <span class="fl">5</span>/<span class="fl">10</span>), <span class="fl">6</span>),
-                  <span class="kw">pi0</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>/<span class="fl">1000</span>, <span class="fl">1</span>/<span class="fl">100</span>, <span class="fl">1</span>/<span class="fl">10</span>, <span class="fl">3</span>/<span class="fl">10</span>), <span class="fl">6</span>),
-                  <span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1500</span>, <span class="fl">4</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">4000</span>, <span class="fl">4</span>)), <span class="fl">3</span>),
+                  <span class="kw">p0</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>/<span class="fl">1000</span>, <span class="fl">20</span>/<span class="fl">1000</span>, <span class="fl">150</span>/<span class="fl">1000</span>, <span class="fl">500</span>/<span class="fl">1000</span>), <span class="fl">6</span>),
+                  <span class="kw">pi0</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>/<span class="fl">1000</span>, <span class="fl">10</span>/<span class="fl">1000</span>, <span class="fl">100</span>/<span class="fl">1000</span>, <span class="fl">300</span>/<span class="fl">1000</span>), <span class="fl">6</span>),
+                  <span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1500</span>, <span class="fl">4</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">15000</span>, <span class="fl">4</span>)), <span class="fl">3</span>),
                   <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fl">8</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fl">8</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.01</span>,<span class="fl">8</span>)),
                   <span class="kw">beta</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0</span>, <span class="fl">8</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.02</span>,<span class="fl">8</span>), <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">0.02</span>,<span class="fl">8</span>)))
 
@@ -130,7 +133,7 @@ Sample size <span class="math inline">\(n\)</span>
 1
 </td>
 <td style="text-align:right;">
-0.125
+0.2
 </td>
 <td style="text-align:right;">
 0.1
@@ -150,7 +153,7 @@ Sample size <span class="math inline">\(n\)</span>
 2
 </td>
 <td style="text-align:right;">
-1.500
+2.0
 </td>
 <td style="text-align:right;">
 1.0
@@ -170,7 +173,7 @@ Sample size <span class="math inline">\(n\)</span>
 3
 </td>
 <td style="text-align:right;">
-15.000
+15.0
 </td>
 <td style="text-align:right;">
 10.0
@@ -190,7 +193,7 @@ Sample size <span class="math inline">\(n\)</span>
 4
 </td>
 <td style="text-align:right;">
-50.000
+50.0
 </td>
 <td style="text-align:right;">
 30.0
@@ -210,13 +213,13 @@ Sample size <span class="math inline">\(n\)</span>
 5
 </td>
 <td style="text-align:right;">
-0.125
+0.2
 </td>
 <td style="text-align:right;">
 0.1
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -230,13 +233,13 @@ Sample size <span class="math inline">\(n\)</span>
 6
 </td>
 <td style="text-align:right;">
-1.500
+2.0
 </td>
 <td style="text-align:right;">
 1.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -250,13 +253,13 @@ Sample size <span class="math inline">\(n\)</span>
 7
 </td>
 <td style="text-align:right;">
-15.000
+15.0
 </td>
 <td style="text-align:right;">
 10.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -270,13 +273,13 @@ Sample size <span class="math inline">\(n\)</span>
 8
 </td>
 <td style="text-align:right;">
-50.000
+50.0
 </td>
 <td style="text-align:right;">
 30.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -290,7 +293,7 @@ Sample size <span class="math inline">\(n\)</span>
 9
 </td>
 <td style="text-align:right;">
-0.125
+0.2
 </td>
 <td style="text-align:right;">
 0.1
@@ -310,7 +313,7 @@ Sample size <span class="math inline">\(n\)</span>
 10
 </td>
 <td style="text-align:right;">
-1.500
+2.0
 </td>
 <td style="text-align:right;">
 1.0
@@ -330,7 +333,7 @@ Sample size <span class="math inline">\(n\)</span>
 11
 </td>
 <td style="text-align:right;">
-15.000
+15.0
 </td>
 <td style="text-align:right;">
 10.0
@@ -350,7 +353,7 @@ Sample size <span class="math inline">\(n\)</span>
 12
 </td>
 <td style="text-align:right;">
-50.000
+50.0
 </td>
 <td style="text-align:right;">
 30.0
@@ -370,13 +373,13 @@ Sample size <span class="math inline">\(n\)</span>
 13
 </td>
 <td style="text-align:right;">
-0.125
+0.2
 </td>
 <td style="text-align:right;">
 0.1
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -390,13 +393,13 @@ Sample size <span class="math inline">\(n\)</span>
 14
 </td>
 <td style="text-align:right;">
-1.500
+2.0
 </td>
 <td style="text-align:right;">
 1.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -410,13 +413,13 @@ Sample size <span class="math inline">\(n\)</span>
 15
 </td>
 <td style="text-align:right;">
-15.000
+15.0
 </td>
 <td style="text-align:right;">
 10.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -430,13 +433,13 @@ Sample size <span class="math inline">\(n\)</span>
 16
 </td>
 <td style="text-align:right;">
-50.000
+50.0
 </td>
 <td style="text-align:right;">
 30.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 0
@@ -450,7 +453,7 @@ Sample size <span class="math inline">\(n\)</span>
 17
 </td>
 <td style="text-align:right;">
-0.125
+0.2
 </td>
 <td style="text-align:right;">
 0.1
@@ -470,7 +473,7 @@ Sample size <span class="math inline">\(n\)</span>
 18
 </td>
 <td style="text-align:right;">
-1.500
+2.0
 </td>
 <td style="text-align:right;">
 1.0
@@ -490,7 +493,7 @@ Sample size <span class="math inline">\(n\)</span>
 19
 </td>
 <td style="text-align:right;">
-15.000
+15.0
 </td>
 <td style="text-align:right;">
 10.0
@@ -510,7 +513,7 @@ Sample size <span class="math inline">\(n\)</span>
 20
 </td>
 <td style="text-align:right;">
-50.000
+50.0
 </td>
 <td style="text-align:right;">
 30.0
@@ -530,13 +533,13 @@ Sample size <span class="math inline">\(n\)</span>
 21
 </td>
 <td style="text-align:right;">
-0.125
+0.2
 </td>
 <td style="text-align:right;">
 0.1
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 1
@@ -550,13 +553,13 @@ Sample size <span class="math inline">\(n\)</span>
 22
 </td>
 <td style="text-align:right;">
-1.500
+2.0
 </td>
 <td style="text-align:right;">
 1.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 1
@@ -570,13 +573,13 @@ Sample size <span class="math inline">\(n\)</span>
 23
 </td>
 <td style="text-align:right;">
-15.000
+15.0
 </td>
 <td style="text-align:right;">
 10.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 1
@@ -590,13 +593,13 @@ Sample size <span class="math inline">\(n\)</span>
 24
 </td>
 <td style="text-align:right;">
-50.000
+50.0
 </td>
 <td style="text-align:right;">
 30.0
 </td>
 <td style="text-align:right;">
-4000
+15000
 </td>
 <td style="text-align:right;">
 1
@@ -607,66 +610,441 @@ Sample size <span class="math inline">\(n\)</span>
 </tr>
 </tbody>
 </table>
-<p>The code for the simulation is given here:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># Initialisation      </span>
-<span class="no">error_survey</span> <span class="kw">=</span> <span class="no">length_asym_survey</span> <span class="kw">=</span> <span class="no">length_cp_survey</span> <span class="kw">=</span> <span class="no">coverage_asym_survey</span> <span class="kw">=</span> <span class="no">coverage_cp_survey</span> <span class="kw">=</span>
-  <span class="no">error_moment</span> <span class="kw">=</span> <span class="no">length_asym_moment</span> <span class="kw">=</span> <span class="no">length_cp_moment</span> <span class="kw">=</span> <span class="no">coverage_asym_moment</span> <span class="kw">=</span> <span class="no">coverage_cp_moment</span> <span class="kw">=</span>
-  <span class="no">error_mle</span> <span class="kw">=</span> <span class="no">length_asym_mle</span> <span class="kw">=</span> <span class="no">length_cp_mle</span> <span class="kw">=</span> <span class="no">coverage_asym_mle</span> <span class="kw">=</span> <span class="no">coverage_cp_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">NA</span>, <span class="no">B</span>, <span class="fl">24</span>)
+<p>The code below performs the simulation:</p>
+<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co"># Initialisation       </span>
+<span class="no">error_survey</span> <span class="kw">=</span> <span class="no">error_moment</span> <span class="kw">=</span> <span class="no">error_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">NA</span>, <span class="no">B</span>, <span class="fl">24</span>)
+<span class="no">boundary_survey</span> <span class="kw">=</span> <span class="no">boundary_mle</span> <span class="kw">=</span> <span class="no">boundary_moment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">NA</span>, <span class="no">B</span>, <span class="fl">24</span>)
+<span class="no">length_survey</span> <span class="kw">=</span> <span class="no">length_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">NA</span>, <span class="no">B</span>, <span class="fl">24</span>)
+<span class="no">coverage_survey</span> <span class="kw">=</span>  <span class="no">coverage_mle</span>  <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">NA</span>, <span class="no">B</span>, <span class="fl">24</span>)
 
-<span class="co"># Start Monte-Carlo </span>
+<span class="co"># Start Monte-Carlo   </span>
 <span class="kw">for</span> (<span class="no">j</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="fl">24</span>){
   <span class="kw">for</span> (<span class="no">i</span> <span class="kw">in</span> <span class="fl">1</span>:<span class="no">B</span>){
+    <span class="co"># Simulate data</span>
     <span class="no">X</span> <span class="kw">=</span> <span class="fu"><a href="../reference/sim_Rs.html">sim_Rs</a></span>(<span class="kw">p</span> <span class="kw">=</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">simu</span>$<span class="no">pi0</span>[<span class="no">j</span>]/<span class="fl">100</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">simu</span>$<span class="no">n</span>[<span class="no">j</span>], <span class="kw">seed</span> <span class="kw">=</span> <span class="no">seed</span> + <span class="no">i</span>,
                <span class="kw">alpha0</span> <span class="kw">=</span> <span class="no">simu</span>$<span class="no">alpha</span>[<span class="no">j</span>]/<span class="fl">100</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">simu</span>$<span class="no">alpha</span>[<span class="no">j</span>]/<span class="fl">100</span>,
                <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">simu</span>$<span class="no">beta</span>[<span class="no">j</span>]/<span class="fl">100</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">simu</span>$<span class="no">beta</span>[<span class="no">j</span>]/<span class="fl">100</span>)
 
     <span class="co"># Fit survey sample estimator</span>
-    <span class="no">survey</span> <span class="kw">=</span> <span class="fu"><a href="../reference/survey_sample.html">survey_sample</a></span>(<span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta</span>)
+    <span class="no">survey</span> <span class="kw">=</span> <span class="fu"><a href="../reference/survey_sample.html">survey_sample</a></span>(<span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>, <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">simulation</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
     <span class="co"># Estimation error</span>
     <span class="no">error_survey</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">survey</span>$<span class="no">estimate</span> - <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
 
-    <span class="co"># Length of CI</span>
-    <span class="no">length_asym_survey</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">survey</span>$<span class="no">ci_asym</span>[<span class="fl">2</span>] - <span class="no">survey</span>$<span class="no">ci_asym</span>[<span class="fl">1</span>]
-    <span class="no">length_cp_survey</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] - <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>]
+    <span class="co"># Check boundary </span>
+    <span class="no">boundary_survey</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">survey</span>$<span class="no">boundary</span>
 
-    <span class="co"># Coverge</span>
-    <span class="no">coverage_asym_survey</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">survey</span>$<span class="no">ci_asym</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">survey</span>$<span class="no">ci_asym</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
-    <span class="no">coverage_cp_survey</span>[<span class="no">i</span>,<span class="no">j</span>]   <span class="kw">=</span> <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
+    <span class="co"># Length of CI</span>
+    <span class="no">length_survey</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] - <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>]
+
+    <span class="co"># Coverage</span>
+    <span class="no">coverage_survey</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">survey</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
 
     <span class="co"># Moment estimator</span>
     <span class="no">moment</span> <span class="kw">=</span> <span class="fu"><a href="../reference/moment_estimator.html">moment_estimator</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>, <span class="kw">alpha0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha0</span>,
-                              <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha</span>, <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta0</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta</span>)
+                              <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha</span>, <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta0</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta</span>, <span class="kw">simulation</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
     <span class="co"># Estimation error</span>
     <span class="no">error_moment</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">moment</span>$<span class="no">estimate</span> - <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
 
-    <span class="co"># Length of CI</span>
-    <span class="no">length_asym_moment</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">moment</span>$<span class="no">ci_asym</span>[<span class="fl">2</span>] - <span class="no">moment</span>$<span class="no">ci_asym</span>[<span class="fl">1</span>]
-    <span class="no">length_cp_moment</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">moment</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] - <span class="no">moment</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>]
-
-    <span class="co"># Coverge</span>
-    <span class="no">coverage_asym_moment</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">moment</span>$<span class="no">ci_asym</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">moment</span>$<span class="no">ci_asym</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
-    <span class="no">coverage_cp_moment</span>[<span class="no">i</span>,<span class="no">j</span>]   <span class="kw">=</span> <span class="no">moment</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">moment</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
+    <span class="co"># Boundary </span>
+    <span class="no">boundary_moment</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">moment</span>$<span class="no">boundary</span>
 
     <span class="co"># MLE</span>
     <span class="no">ml</span> <span class="kw">=</span> <span class="fu"><a href="../reference/mle.html">mle</a></span>(<span class="kw">R0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R0</span>, <span class="kw">R</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">R</span>, <span class="kw">pi0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">pi0</span>, <span class="kw">n</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">n</span>, <span class="kw">alpha0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha0</span>,
-                              <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha</span>, <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta0</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta</span>)
+              <span class="kw">alpha</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">alpha</span>, <span class="kw">beta0</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta0</span>, <span class="kw">beta</span> <span class="kw">=</span> <span class="no">X</span>$<span class="no">beta</span>, <span class="kw">simulation</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
     <span class="co"># Estimation error</span>
     <span class="no">error_mle</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">ml</span>$<span class="no">estimate</span> - <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
 
-    <span class="co"># Length of CI</span>
-    <span class="no">length_asym_mle</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">ml</span>$<span class="no">ci_asym</span>[<span class="fl">2</span>] - <span class="no">ml</span>$<span class="no">ci_asym</span>[<span class="fl">1</span>]
-    <span class="no">length_cp_mle</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] - <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>]
+    <span class="co"># Boundary </span>
+    <span class="no">boundary_mle</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">ml</span>$<span class="no">boundary</span>
 
-    <span class="co"># Coverge</span>
-    <span class="no">coverage_asym_mle</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">ml</span>$<span class="no">ci_asym</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">ml</span>$<span class="no">ci_asym</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
-    <span class="no">coverage_cp_mle</span>[<span class="no">i</span>,<span class="no">j</span>]   <span class="kw">=</span> <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
+    <span class="co"># Length of CI</span>
+    <span class="no">length_mle</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] - <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>]
+
+    <span class="co"># Coverage</span>
+    <span class="no">coverage_mle</span>[<span class="no">i</span>,<span class="no">j</span>] <span class="kw">=</span> <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">1</span>] <span class="kw">&lt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span> <span class="kw">&amp;&amp;</span> <span class="no">ml</span>$<span class="no">ci_cp</span>[<span class="fl">2</span>] <span class="kw">&gt;</span> <span class="no">simu</span>$<span class="no">p0</span>[<span class="no">j</span>]/<span class="fl">100</span>
   }
 }</pre></body></html></div>
-<p>In the figure below we compare the Root Mean Square Error (RMSE) for the three estimators in the 12 simulation settings.</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">RMSE</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>)
+<p>The table below presents the percentage of times each estimator had a solution either outside of the interval <span class="math inline">\([\pi_0, 1]\)</span> (moment estimator) or at its boundary (MLE and sample survey):</p>
+<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="co"># Simulation settings</span>
+<span class="no">boundary</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">Simulation</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">24</span>,
+                  <span class="kw">survey</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">boundary_survey</span>, <span class="fl">2</span>, <span class="no">mean</span>),
+                  <span class="kw">moment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">boundary_moment</span>, <span class="fl">2</span>, <span class="no">mean</span>),
+                  <span class="kw">mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">boundary_mle</span>, <span class="fl">2</span>, <span class="no">mean</span>))
+
+<span class="co"># Print table</span>
+<span class="fu">kable</span>(<span class="no">boundary</span>, <span class="kw">col.names</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Simulation ID"</span>,
+                           <span class="st">"Survey sample $\\bar{\\pi}$"</span>,
+                           <span class="st">"Moment Estimator $\\tilde{\\pi}$"</span>,
+                           <span class="st">"MLE $\\hat{\\pi}$"</span>)) <span class="kw">%&gt;%</span>
+  <span class="fu">kable_styling</span>(<span class="kw">bootstrap_options</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"striped"</span>, <span class="st">"hover"</span>))</pre></body></html></div>
+<table class="table table table-striped table-hover">
+<thead><tr>
+<th style="text-align:right;">
+Simulation ID
+</th>
+<th style="text-align:right;">
+Survey sample <span class="math inline">\(\bar{\pi}\)</span>
+</th>
+<th style="text-align:right;">
+Moment Estimator <span class="math inline">\(\tilde{\pi}\)</span>
+</th>
+<th style="text-align:right;">
+MLE <span class="math inline">\(\hat{\pi}\)</span>
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+1
+</td>
+<td style="text-align:right;">
+0.1931
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+2
+</td>
+<td style="text-align:right;">
+0.0008
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+3
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+4
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+5
+</td>
+<td style="text-align:right;">
+0.0010
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+6
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+7
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+8
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+9
+</td>
+<td style="text-align:right;">
+0.2027
+</td>
+<td style="text-align:right;">
+0.2166
+</td>
+<td style="text-align:right;">
+0.0640
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+10
+</td>
+<td style="text-align:right;">
+0.0011
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+11
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+12
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+13
+</td>
+<td style="text-align:right;">
+0.0011
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0023
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+14
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+15
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+16
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+17
+</td>
+<td style="text-align:right;">
+0.3826
+</td>
+<td style="text-align:right;">
+0.0002
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+18
+</td>
+<td style="text-align:right;">
+0.0096
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+19
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+20
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+21
+</td>
+<td style="text-align:right;">
+0.1383
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+22
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+23
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+24
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+<td style="text-align:right;">
+0.0000
+</td>
+</tr>
+</tbody>
+</table>
+<p>The same information is presented as a barplot in the figure below:</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">boundary_barplot</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span>(<span class="no">boundary</span>[,<span class="fl">2</span>:<span class="fl">4</span>]))
+<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">colnames</a></span>(<span class="no">boundary_barplot</span>) <span class="kw">=</span> <span class="no">boundary</span>[,<span class="fl">1</span>]
+<span class="no">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/hcl.html">hcl</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">15</span>, <span class="fl">375</span>, <span class="kw">length</span> <span class="kw">=</span> <span class="fl">4</span>), <span class="kw">l</span> <span class="kw">=</span> <span class="fl">65</span>, <span class="kw">c</span> <span class="kw">=</span> <span class="fl">100</span>)[<span class="fl">1</span>:<span class="fl">3</span>]
+<span class="fu"><a href="https://rdrr.io/r/graphics/barplot.html">barplot</a></span>(<span class="no">boundary_barplot</span>, <span class="kw">beside</span> <span class="kw">=</span> <span class="fl">TRUE</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span>)],
+        <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"Percentage of simulations with no reliable solution"</span>,
+        <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Simulation ID"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="st">"topleft"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Survey"</span>, <span class="st">"Moment"</span>, <span class="st">"MLE"</span>), <span class="kw">fill</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">2</span>)], <span class="kw">bty</span> <span class="kw">=</span> <span class="st">"n"</span>)</pre></body></html></div>
+<p><img src="simulations_files/figure-html/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;"></p>
+<p>In the figure below we compare the ratio of the RMSEs:</p>
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">RMSE</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>)
   <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">x</span>)^<span class="fl">2</span> + <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span>(<span class="no">x</span>))
 
 <span class="no">nb_settings</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="no">simu</span>$<span class="no">Simulation</span>, <span class="kw">n</span><span class="kw">=</span><span class="fl">1</span>)
@@ -676,186 +1054,103 @@ Sample size <span class="math inline">\(n\)</span>
 <span class="no">rmse_moment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">error_moment</span>, <span class="fl">2</span>, <span class="no">RMSE</span>)
 <span class="no">rmse_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">error_mle</span>, <span class="fl">2</span>, <span class="no">RMSE</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fl">0.0185</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Simulation ID"</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"RMSE"</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>, <span class="fl">1.15</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Simulation ID"</span>,
+     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"Ratio of RMSE"</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">0.5</span>, -<span class="fl">0.01</span>, <span class="fl">4.5</span>, <span class="fl">1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">8.5</span>, -<span class="fl">0.01</span>, <span class="fl">12.5</span>, <span class="fl">1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">16.5</span>, -<span class="fl">0.01</span>, <span class="fl">20.5</span>, <span class="fl">1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">0.0005</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">0.0005</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">0.0005</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">0.0005</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">0.0005</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">0.0005</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">4.5</span>, <span class="fl">0.0145</span>, <span class="st">"without measurement error"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">12.5</span>, <span class="fl">0.0145</span>, <span class="st">"with false positive"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">20.5</span>, <span class="fl">0.0145</span>, <span class="st">"with false positive and negative"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">0.25</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">0.25</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">0.25</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">0.25</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">0.25</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">0.25</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">4.5</span>, <span class="fl">1.1</span>, <span class="st">"without measurement error"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">12.5</span>, <span class="fl">1.1</span>, <span class="st">"with false positive"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">20.5</span>, <span class="fl">1.1</span>, <span class="st">"with false positive and negative"</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">8.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">16.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">1</span>, <span class="fl">1</span>:<span class="no">nb_settings</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">2</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span>()
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> (<span class="fl">0</span>:<span class="fl">3</span>)*<span class="fl">0.005</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> (<span class="fl">0</span>:<span class="fl">20</span>)/<span class="fl">10</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_survey</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_moment</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">16</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_mle</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="st">"topright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Survey Sample"</span>, <span class="st">"Moment Estimator"</span>, <span class="st">"MLE"</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>,
-       <span class="kw">pch</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">15</span>, <span class="fl">16</span>, <span class="fl">1</span>), <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">bty</span> <span class="kw">=</span> <span class="st">"n"</span>)</pre></body></html></div>
-<p><img src="simulations_files/figure-html/unnamed-chunk-2-1.png" width="864" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">RMSE</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>)
-  <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">x</span>)^<span class="fl">2</span> + <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">var</a></span>(<span class="no">x</span>))
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_mle</span>/<span class="no">rmse_survey</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_mle</span>/<span class="no">rmse_moment</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">16</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="fl">1</span>, <span class="fl">0.45</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Survey Sample"</span>, <span class="st">"Moment Estimator"</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">3</span>)],
+       <span class="kw">pch</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">15</span>, <span class="fl">16</span>), <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">bty</span> <span class="kw">=</span> <span class="st">"n"</span>)</pre></body></html></div>
+<p><img src="simulations_files/figure-html/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html">par</a></span>(<span class="kw">mfrow</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">1</span>), <span class="kw">mar</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>,<span class="fl">0.5</span>), <span class="kw">oma</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">5</span>,<span class="fl">3</span>,<span class="fl">0</span>))
 
-<span class="no">nb_settings</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span>(<span class="no">simu</span>$<span class="no">Simulation</span>, <span class="kw">n</span><span class="kw">=</span><span class="fl">1</span>)
-<span class="no">cols</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/hcl.html">hcl</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">15</span>, <span class="fl">375</span>, <span class="kw">length</span> <span class="kw">=</span> <span class="fl">4</span>), <span class="kw">l</span> <span class="kw">=</span> <span class="fl">65</span>, <span class="kw">c</span> <span class="kw">=</span> <span class="fl">100</span>)[<span class="fl">1</span>:<span class="fl">3</span>]
+<span class="co"># Compute empirical coverage</span>
+<span class="no">cov_survey</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">coverage_survey</span>, <span class="fl">2</span>, <span class="no">mean</span>)
+<span class="no">cov_mle</span> <span class="kw">=</span> <span class="fl">100</span>*<span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">coverage_mle</span>, <span class="fl">2</span>, <span class="no">mean</span>)
 
-<span class="no">rmse_survey</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">error_survey</span>, <span class="fl">2</span>, <span class="no">RMSE</span>)
-<span class="no">rmse_moment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">error_moment</span>, <span class="fl">2</span>, <span class="no">RMSE</span>)
-<span class="no">rmse_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">error_mle</span>, <span class="fl">2</span>, <span class="no">RMSE</span>)
+<span class="co"># Compute average length of CI</span>
+<span class="no">len_survey</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">length_survey</span>, <span class="fl">2</span>, <span class="no">mean</span>)
+<span class="no">len_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">length_mle</span>, <span class="fl">2</span>, <span class="no">mean</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.00007</span>, <span class="fl">0.05</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Simulation ID"</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"RMSE"</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>, <span class="kw">log</span> <span class="kw">=</span> <span class="st">"y"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">0.5</span>, <span class="fl">0.00001</span>, <span class="fl">4.5</span>, <span class="fl">1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">8.5</span>, <span class="fl">0.00001</span>, <span class="fl">12.5</span>, <span class="fl">1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">16.5</span>, <span class="fl">0.00001</span>, <span class="fl">20.5</span>, <span class="fl">1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">0.00008</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">0.00008</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">0.00008</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">0.00008</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">0.00008</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">0.00008</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">4.5</span>, <span class="fl">0.018</span>, <span class="st">"without measurement error"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">12.5</span>, <span class="fl">0.018</span>, <span class="st">"with false positive"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">20.5</span>, <span class="fl">0.018</span>, <span class="st">"with false positive and negative"</span>)
+<span class="co"># Plot coverage</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">93.5</span>, <span class="fl">100.8</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">" "</span>, <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">" "</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">4.5</span>, <span class="fl">150</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">8.5</span>, <span class="fl">0</span>, <span class="fl">12.5</span>, <span class="fl">150</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">16.5</span>, <span class="fl">0</span>, <span class="fl">20.5</span>, <span class="fl">150</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">94</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">94</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">94</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">94</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">94</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">94</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">4.5</span>, <span class="fl">100.5</span>, <span class="st">"without measurement error"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">12.5</span>, <span class="fl">100.5</span>, <span class="st">"with false positive"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">20.5</span>, <span class="fl">100.5</span>, <span class="st">"with false positive and negative"</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">8.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">16.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">1</span>, <span class="fl">1</span>:<span class="no">nb_settings</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">2</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span>()
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">90</span> + (<span class="fl">0</span>:<span class="fl">10</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_survey</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_moment</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">16</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">rmse_mle</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="st">"topright"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Survey Sample"</span>, <span class="st">"Moment Estimator"</span>, <span class="st">"MLE"</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>,
-       <span class="kw">pch</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">15</span>, <span class="fl">16</span>, <span class="fl">1</span>), <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">bty</span> <span class="kw">=</span> <span class="st">"n"</span>)</pre></body></html></div>
-<p><img src="simulations_files/figure-html/unnamed-chunk-3-1.png" width="864" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">cov_survey_asym</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">coverage_asym_survey</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">cov_survey_cp</span>   <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">coverage_cp_survey</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">cov_moment_asym</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="no">coverage_asym_moment</span>), <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">cov_moment_cp</span>   <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">coverage_cp_moment</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">cov_mle_asym</span>    <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">coverage_asym_mle</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">cov_mle_cp</span>      <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">coverage_cp_mle</span>, <span class="fl">2</span>, <span class="no">mean</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">95</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span>(<span class="st">"Empirical coverage (95% conf. level)"</span>, <span class="kw">side</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">line</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">cov_survey</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">16</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">cov_mle</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">17</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.28</span>, <span class="fl">1.03</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Simulation ID"</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"Coverage"</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">0.5</span>, -<span class="fl">0.5</span>, <span class="fl">4.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">8.5</span>, -<span class="fl">0.5</span>, <span class="fl">12.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">16.5</span>, -<span class="fl">0.5</span>, <span class="fl">20.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">4.5</span>, <span class="fl">0.45</span>, <span class="st">"without measurement error"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">12.5</span>, <span class="fl">0.45</span>, <span class="st">"with false positive"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">20.5</span>, <span class="fl">0.45</span>, <span class="st">"with false positive and negative"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="fl">2.5</span>, <span class="fl">99.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Survey Sample"</span>, <span class="st">"MLE"</span>), <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>)],
+       <span class="kw">pch</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">15</span>, <span class="fl">17</span>), <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">bty</span> <span class="kw">=</span> <span class="st">"n"</span>)
+
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.595</span>, <span class="fl">1.02</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">" "</span>, <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">" "</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">0.5</span>, <span class="fl">0</span>, <span class="fl">4.5</span>, <span class="fl">1.50</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">8.5</span>, <span class="fl">0</span>, <span class="fl">12.5</span>, <span class="fl">1.50</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">16.5</span>, <span class="fl">0</span>, <span class="fl">20.5</span>, <span class="fl">1.50</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">0.59</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">0.59</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">0.59</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">0.59</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">0.59</span>, <span class="st">"n = 1,500"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">0.59</span>, <span class="st">"n = 15,000"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">4.5</span>, <span class="fl">1.01</span>, <span class="st">"without measurement error"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">12.5</span>, <span class="fl">1.01</span>, <span class="st">"with false positive"</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">20.5</span>, <span class="fl">1.01</span>, <span class="st">"with false positive and negative"</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">8.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">16.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">0.95</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">1</span>, <span class="fl">1</span>:<span class="no">nb_settings</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">2</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">1</span>, <span class="kw">at</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="fl">24</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span>()
 <span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> (<span class="fl">0</span>:<span class="fl">10</span>)*<span class="fl">0.1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> (<span class="fl">0</span>:<span class="fl">10</span>)/<span class="fl">10</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
 <span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_survey_asym</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_survey_cp</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_moment_asym</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">16</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_moment_cp</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_mle_asym</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">17</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_mle_cp</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span>(<span class="fl">16.5</span>, <span class="fl">0.75</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Survey Sample - Asymptotic"</span>, <span class="st">"Survey Sample - CP"</span>,
-                     <span class="st">"Moment Estim. - Asymptotic"</span>, <span class="st">"Moment Estim. - CP"</span>,
-                     <span class="st">"MLE - Asymptotic"</span>, <span class="st">"MLE - CP"</span>),
-       <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">1</span>:<span class="fl">3</span>, <span class="kw">each</span> <span class="kw">=</span> <span class="fl">2</span>)], <span class="kw">pch</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">15</span>, <span class="fl">0</span>, <span class="fl">16</span>, <span class="fl">1</span>, <span class="fl">17</span>, <span class="fl">2</span>), <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">bty</span> <span class="kw">=</span> <span class="st">"n"</span>)</pre></body></html></div>
-<p><img src="simulations_files/figure-html/unnamed-chunk-4-1.png" width="864" style="display: block; margin: auto;"></p>
-<p>ZOOM:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.89</span>, <span class="fl">1.01</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Simulation ID"</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"Coverage"</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">0.5</span>, -<span class="fl">0.5</span>, <span class="fl">4.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">8.5</span>, -<span class="fl">0.5</span>, <span class="fl">12.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">16.5</span>, -<span class="fl">0.5</span>, <span class="fl">20.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">8.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">16.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">0.95</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">1</span>, <span class="fl">1</span>:<span class="no">nb_settings</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> (<span class="fl">0</span>:<span class="fl">10</span>)*<span class="fl">0.01</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_survey_asym</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_survey_cp</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_moment_asym</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">16</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_moment_cp</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_mle_asym</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">17</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">cov_mle_cp</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>)</pre></body></html></div>
-<p><img src="simulations_files/figure-html/unnamed-chunk-5-1.png" width="864" style="display: block; margin: auto;"></p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">len_asym_survey</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">length_asym_survey</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">len_cp_survey</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">length_cp_survey</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-
-<span class="no">len_asym_moment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span>(<span class="no">length_asym_moment</span>), <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">len_cp_moment</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">length_cp_moment</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-
-<span class="no">len_asym_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">length_asym_mle</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-<span class="no">len_cp_mle</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span>(<span class="no">length_cp_mle</span>, <span class="fl">2</span>, <span class="no">mean</span>)
-
-
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.html">plot</a></span>(<span class="fl">NA</span>, <span class="kw">xlim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="no">nb_settings</span>), <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">len_cp_survey</span>)+<span class="fl">0.0015</span>), <span class="kw">xlab</span> <span class="kw">=</span> <span class="st">"Simulation ID"</span>,
-     <span class="kw">ylab</span> <span class="kw">=</span> <span class="st">"Mean - length of CI"</span>, <span class="kw">axes</span> <span class="kw">=</span> <span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">0.5</span>, -<span class="fl">0.5</span>, <span class="fl">4.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">8.5</span>, -<span class="fl">0.5</span>, <span class="fl">12.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/rect.html">rect</a></span>(<span class="fl">16.5</span>, -<span class="fl">0.5</span>, <span class="fl">20.5</span>, <span class="fl">2.5</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey95"</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">"grey95"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">2.5</span>, <span class="fl">0</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">6.5</span>, <span class="fl">0</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">10.5</span>, <span class="fl">0</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">14.5</span>, <span class="fl">0</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">18.5</span>, <span class="fl">0</span>, <span class="st">"n = 1500"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">22.5</span>, <span class="fl">0.3</span>, <span class="st">"n = 4000"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">4.5</span>, <span class="fl">0.055</span>, <span class="st">"without measurement error"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">12.5</span>, <span class="fl">0.055</span>, <span class="st">"with false positive"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span>(<span class="fl">20.5</span>, <span class="fl">0.055</span>, <span class="st">"with false positive and negative"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">8.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">16.5</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">0.95</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">1</span>, <span class="fl">1</span>:<span class="no">nb_settings</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/axis.html">axis</a></span>(<span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/grid.html">grid</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">v</span> <span class="kw">=</span> <span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> (<span class="fl">0</span>:<span class="fl">10</span>)*<span class="fl">0.1</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">"grey80"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">3</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/box.html">box</a></span>()
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">len_asym_survey</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"l"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">len_cp_survey</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">1</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"l"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">len_asym_moment</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"l"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">len_cp_moment</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">2</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"l"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">len_asym_mle</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"l"</span>)
-<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="fl">1</span>:<span class="no">nb_settings</span>, <span class="no">len_cp_mle</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols</span>[<span class="fl">3</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">15</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"l"</span>, <span class="kw">lty</span> <span class="kw">=</span> <span class="fl">2</span>)</pre></body></html></div>
-<p><img src="simulations_files/figure-html/unnamed-chunk-6-1.png" width="864" style="display: block; margin: auto;"></p>
-</div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span>(<span class="st">"Ratio of average length of 95% CI"</span>, <span class="kw">side</span> <span class="kw">=</span> <span class="fl">2</span>, <span class="kw">line</span> <span class="kw">=</span> <span class="fl">3</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/mtext.html">mtext</a></span>(<span class="st">"Simulation ID"</span>, <span class="kw">side</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">line</span> <span class="kw">=</span> <span class="fl">2</span>)
+<span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fl">1</span>, <span class="kw">lwd</span> <span class="kw">=</span> <span class="fl">2</span>)
+<span class="no">cols2</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/hcl.html">hcl</a></span>(<span class="kw">h</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fl">15</span>, <span class="fl">375</span>, <span class="kw">length</span> <span class="kw">=</span> <span class="fl">5</span>), <span class="kw">l</span> <span class="kw">=</span> <span class="fl">65</span>, <span class="kw">c</span> <span class="kw">=</span> <span class="fl">100</span>)[<span class="fl">1</span>:<span class="fl">4</span>]
+<span class="fu"><a href="https://rdrr.io/r/graphics/lines.html">lines</a></span>(<span class="no">len_mle</span>/<span class="no">len_survey</span>, <span class="kw">type</span> <span class="kw">=</span> <span class="st">"b"</span>, <span class="kw">ylim</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.6</span>, <span class="fl">1.01</span>),
+      <span class="kw">col</span> <span class="kw">=</span> <span class="no">cols2</span>[<span class="fl">4</span>], <span class="kw">pch</span> <span class="kw">=</span> <span class="fl">18</span>, <span class="kw">cex</span> <span class="kw">=</span> <span class="fl">1.4</span>)</pre></body></html></div>
+<p><img src="simulations_files/figure-html/unnamed-chunk-5-1.png" width="960"></p>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>

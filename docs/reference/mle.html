@@ -83,6 +83,12 @@ as well as the Clopper–Pearson approach." />
   <a href="../articles/simulations.html">Simulation Study</a>
 </li>
 <li>
+  <a href="../articles/case_study.html">Case Study</a>
+</li>
+<li>
+  <a href="../articles/figures.html">Figures</a>
+</li>
+<li>
   <a href="../reference/index.html">Reference</a>
 </li>
       </ul>
@@ -125,11 +131,8 @@ as well as the Clopper–Pearson approach.</p>
   <span class='kw'>alpha</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>beta0</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>beta</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>100</span>,
-  <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>18</span>,
-  <span class='kw'>eps</span> <span class='kw'>=</span> <span class='fl'>10</span>^(-<span class='fl'>6</span>),
-  <span class='kw'>iter_max</span> <span class='kw'>=</span> <span class='fl'>15</span>,
   <span class='kw'>gamma</span> <span class='kw'>=</span> <span class='fl'>0.05</span>,
+  <span class='kw'>simulation</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
 
@@ -196,7 +199,7 @@ as well as the Clopper–Pearson approach.</p>
 #&gt; Estimated proportion: 2.8629%
 #&gt; Standard error      : 0.3491%
 #&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
+#&gt; Confidence intervals at the 95% level:
 #&gt; Asymptotic Approach: 2.1787% - 3.5471%
 #&gt; Clopper–Pearson    : 2.2439% - 3.6866%
 #&gt; 
@@ -210,7 +213,7 @@ as well as the Clopper–Pearson approach.</p>
 #&gt; Estimated proportion: 3.4000%
 #&gt; Standard error      : 0.3951%
 #&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
+#&gt; Confidence intervals at the 95% level:
 #&gt; Asymptotic Approach: 2.6256% - 4.1744%
 #&gt; Clopper–Pearson    : 2.6865% - 4.3072%
 #&gt; 
@@ -221,7 +224,7 @@ as well as the Clopper–Pearson approach.</p>
 #&gt; Estimated proportion: 2.8630%
 #&gt; Standard error      : 0.3785%
 #&gt; 
-#&gt; Confidence intervals with gamma = 0.05:
+#&gt; Confidence intervals at the 95% level:
 #&gt; Asymptotic Approach: 2.1212% - 3.6048%
 #&gt; Clopper–Pearson    : 2.0507% - 3.7924%
 #&gt; 

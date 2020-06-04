@@ -29,7 +29,7 @@
 #' alpha = 0.01, beta0 = 0.05, beta = 0.05, seed = 18)
 #' survey_sample(X$R, X$n)
 #' survey_sample(X$R, X$n, alpha = 0.01, beta = 0.05)
-survey_sample = function(R, n, alpha = 0, beta = 0, gamma = 0.05, ...){
+survey_sample = function(R, n, alpha = 0, beta = 0, gamma = 0.05, pi0 = 0, simulation = FALSE, ...){
   # Compute survey proportion
   pi_bar = R/n
 
@@ -38,14 +38,34 @@ survey_sample = function(R, n, alpha = 0, beta = 0, gamma = 0.05, ...){
     pi_bar = (pi_bar - alpha)/(1 - alpha - beta)
   }
 
-  if (pi_bar < 0 || pi_bar > 1){
-    warning("The estimator has no (reliable) solution.")
-    return(invisible(list(estimate = NA, sd = NA, ci_asym = NA, ci_cp = NA, gamma = gamma,
-               method = "Survey sample", measurement = c(NA, alpha, NA, beta), ...)))
+  if (pi_bar < pi0 || pi_bar > 1){
+    if (simulation == FALSE){
+      warning("The estimator has no (reliable) solution.")
+    }
+    pi_bar = c(pi0, 1)[which.min(abs(pi_bar - c(pi0, 1)))]
+    sd = NA
+    ci_asym = NA
+
+    if (pi_bar == pi0){
+      upper = (qbeta(p = 1 - gamma/2, R + 1, n - R) - alpha)/(1 - alpha - beta)
+      lower = pi0
+    }else{
+      upper = 1
+      lower = (qbeta(p = gamma/2, R, n - R + 1) - alpha)/(1 - alpha - beta)
+    }
+
+    ci_cp = c(lower, upper)
+
+    # Construct output
+    out = list(estimate = pi_bar, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
+               method = "Survey sample", measurement = c(NA, alpha, NA, beta),
+               boundary = TRUE,...)
+    class(out) = "CPreval"
+    return(out)
   }
 
   # Estimated standard error
-  sd = sqrt(R/n*(1 - R/n)/n)
+  sd = sqrt(pi_bar*(1 - pi_bar)/n)
 
   # Compute 1 - gamma asymptotic interval
   ci_asym = pi_bar + qnorm(1 - gamma/2)*c(-1,1)*sd
@@ -53,10 +73,22 @@ survey_sample = function(R, n, alpha = 0, beta = 0, gamma = 0.05, ...){
   # Compute 1 - gamma confidence interval - Clopper–Pearson approach
   upper = (qbeta(p = 1 - gamma/2, R + 1, n - R) - alpha)/(1 - alpha - beta)
   lower = (qbeta(p = gamma/2, R, n - R + 1) - alpha)/(1 - alpha - beta)
+
+  # Adjust CI - CP
+  if (lower < pi0){
+    lower = pi0
+  }
+
+  if (upper > 1){
+    upper = 1
+  }
+
   ci_cp = c(lower, upper)
 
+  # Construct output
   out = list(estimate = pi_bar, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
-             method = "Survey sample", measurement = c(NA, alpha, NA, beta), ...)
+             method = "Survey sample", measurement = c(NA, alpha, NA, beta),
+             boundary = FALSE,...)
   class(out) = "CPreval"
   out
 }
@@ -154,7 +186,7 @@ print.CPreval = function(x, ...){
 #' moment_estimator(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n)
 #' moment_estimator(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n, alpha0 = 0.01,
 #' alpha = 0.01, beta0 = 0.05, beta = 0.05)
-moment_estimator = function(R0, R, pi0, n, alpha0 = 0, alpha = 0, beta0 = 0, beta = 0, gamma = 0.05, ...){
+moment_estimator = function(R0, R, pi0, n, alpha0 = 0, alpha = 0, beta0 = 0, beta = 0, gamma = 0.05, simulation = FALSE, ...){
   # Compute point estimate
   # Define Deltas
   Delta0 = 1 - alpha0 - beta0
@@ -167,6 +199,22 @@ moment_estimator = function(R0, R, pi0, n, alpha0 = 0, alpha = 0, beta0 = 0, bet
 
   # Estimator
   estimate = (a2 + sqrt(a2^2 + a1*a3))/a3
+
+  # Check estimator
+  if (estimate < pi0 || estimate > 1){
+    if (simulation == FALSE){
+      warning("The estimator has no (reliable) solution.")
+    }
+    estimate = c(pi0, 1)[which.min(abs(estimate - c(pi0, 1)))]
+    sd = NA
+    ci_asym = NA
+    ci_cp = NA
+    out = list(estimate = estimate, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
+               method = "Moment estimator", measurement = c(alpha0, alpha, beta0, beta),
+               boundary = TRUE, ...)
+    class(out) = "CPreval"
+    return(out)
+  }
 
   if (alpha == 0){
     # Compute sd
@@ -204,15 +252,9 @@ moment_estimator = function(R0, R, pi0, n, alpha0 = 0, alpha = 0, beta0 = 0, bet
     ci_cp = c(lower, upper)
   }
 
-  # Check estimator
-  if (estimate < 0 || estimate > 1){
-    warning("The estimator has no (reliable) solution.")
-    return(invisible(list(estimate = NA, sd = NA, ci_asym = NA, ci_cp = NA, gamma = gamma,
-              method = "Moment estimator", measurement = c(NA, alpha, NA, beta), ...)))
-  }
-
   out = list(estimate = estimate, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
-             method = "Moment estimator", measurement = c(alpha0, alpha, beta0, beta), ...)
+             method = "Moment estimator", measurement = c(alpha0, alpha, beta0, beta),
+             boundary = FALSE, ...)
   class(out) = "CPreval"
   out
 }
@@ -280,21 +322,83 @@ neg_log_like = function(pi2, R, R0, pi0, n, alpha0, alpha, beta0, beta, ...){
 #' mle(R0 = X$R0, R = X$R, pi0 = X$pi0, n = X$n, alpha0 = 0.01,
 #' alpha = 0.01, beta0 = 0.05, beta = 0.05)
 mle = function(R0, R, pi0, n, alpha0 = 0, alpha = 0,
-               beta0 = 0, beta = 0, gamma = 0.05, ...){
+               beta0 = 0, beta = 0, gamma = 0.05, simulation = FALSE, ...){
 
 
   if (max(alpha0, alpha, beta0, beta) > 0){
-    estimate = optimize(neg_log_like, c(pi0, 0.9999), tol = 0.000001, R = R, R0 = R0,
+    eps = 10^(-5)
+    estimate = optimize(neg_log_like, c(pi0 - eps, 1 - eps), tol = 0.000001, R = R, R0 = R0,
                         pi0 = pi0, n = n, alpha0 = alpha0, alpha = alpha,
                         beta0 = beta0, beta = beta)$minimum
+
+    # Check boundary
+    boundary_lower = neg_log_like(pi2 = pi0, R = R, R0 = R0, pi0 = pi0, n = n,
+                 alpha0 = 0.01, alpha = 0.01, beta0 = 0.05, beta = 0.05)
+    boundary_upper = neg_log_like(pi2 = 1, R = R, R0 = R0, pi0 = pi0, n = n,
+                 alpha0 = 0.01, alpha = 0.01, beta0 = 0.05, beta = 0.05)
+    min_eval = neg_log_like(pi2 = estimate, R = R, R0 = R0, pi0 = pi0, n = n,
+                 alpha0 = 0.01, alpha = 0.01, beta0 = 0.05, beta = 0.05)
+
+    if (min(boundary_lower, boundary_upper) <= min_eval){
+      if (simulation == FALSE){
+        warning("The estimator has no (reliable) solution.")
+      }
+
+      estimate = c(pi0, 1)[which.min(c(boundary_lower, boundary_upper))]
+
+      sd = NA
+      ci_asym = NA
+
+      if (estimate == pi0){
+        upper = (qbeta(p = 1 - gamma/2, R + 1, n - R) - alpha)/(1 - alpha - beta)
+        lower = pi0
+      }else{
+        upper = 1
+        lower = (qbeta(p = gamma/2, R, n - R + 1) - alpha)/(1 - alpha - beta)
+      }
+      ci_cp = c(lower, upper)
+
+      out = list(estimate = estimate, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
+                 method = "MLE", measurement = c(alpha0, alpha, beta0, beta),
+                 boundary = TRUE,...)
+      class(out) = "CPreval"
+      return(out)
+    }
+
     I_fisher = (n*(alpha + beta - 1)^2)/(alpha*estimate - estimate - alpha + beta*estimate + 1) + (n*(alpha + beta - 1)^2)/(alpha + estimate - alpha*estimate - beta*estimate) + (n*pi0^2*(alpha0 + beta0 - 1)^2*(alpha + estimate - alpha*estimate - beta*estimate))/(estimate^3*(estimate - pi0 + alpha0*pi0 - alpha0*estimate + beta0*pi0)) + (n*pi0^2*(alpha0 + beta0 - 1)^2*(alpha + estimate - alpha*estimate - beta*estimate))/(estimate^3*(pi0 - alpha0*pi0 + alpha0*estimate - beta0*pi0))
     sd = 1/sqrt(I_fisher)
     ci_asym = estimate + c(-1, 1)*qnorm(1 - gamma/2)*sd
   }else{
     estimate = pi0*(n - R)/(n - R0) + (R - R0)/(n - R0)
+
+    if (estimate < pi0 || estimate > 1){
+      if (simulation == FALSE){
+        warning("The estimator has no (reliable) solution.")
+      }
+
+      estimate = c(pi0, 1)[which.min(abs(estimate - c(pi0, 1)))]
+      sd = NA
+      ci_asym = NA
+
+      if (estimate == pi0){
+        upper = (qbeta(p = 1 - gamma, R + 1, n - R) - alpha)/(1 - alpha - beta)
+        lower = pi0
+      }else{
+        upper = 1
+        lower = (qbeta(p = gamma, R, n - R + 1) - alpha)/(1 - alpha - beta)
+      }
+      ci_cp = c(lower, upper)
+
+      out = list(estimate = estimate, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
+                 method = "MLE", measurement = c(alpha0, alpha, beta0, beta),
+                 boundary = TRUE,...)
+      class(out) = "CPreval"
+      return(out)
+    }
+
     sd = sqrt(((estimate - pi0)*(1 - estimate))/(n*(1 - pi0)))
     ci_asym = estimate + c(-1, 1)*qnorm(1 - gamma/2)*sd
-  }
+}
 
   I2 = qbeta(p = 1 - gamma/2, R - R0 + 1, n - R + R0)
   I1 = qbeta(p = gamma/2, R - R0, n - R + R0 + 1)
@@ -303,10 +407,20 @@ mle = function(R0, R, pi0, n, alpha0 = 0, alpha = 0,
   dlt = pi0*Delta1*(Delta2 + alpha/estimate)
   lower = ((I1 + dlt)/(1 - alpha0) - alpha)/Delta2
   upper = ((I2 + dlt)/(1 - alpha0) - alpha)/Delta2
+
+  if (lower < pi0){
+    lower = pi0
+  }
+
+  if (upper > 1){
+    upper = 1
+  }
+
   ci_cp = c(lower, upper)
 
   out = list(estimate = estimate, sd = sd, ci_asym = ci_asym, ci_cp = ci_cp, gamma = gamma,
-             method = "MLE", measurement = c(alpha0, alpha, beta0, beta), ...)
+             method = "MLE", measurement = c(alpha0, alpha, beta0, beta),
+             boundary = FALSE, ...)
   class(out) = "CPreval"
   out
 }

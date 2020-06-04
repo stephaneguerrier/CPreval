@@ -1,0 +1,220 @@
+---
+title: "Case Study"
+bibliography: biblio.bib
+output: 
+  rmarkdown::html_vignette:
+    fig_caption: yes
+vignette: >
+  %\VignetteIndexEntry{Case Study}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Data: $n = 1,544$, $\pi_0 = 1/758$, $r = 5$ and $r_0 = 3$.
+
+```{r}
+library(CPreval)
+
+# Data:
+n = 1544
+r = 5
+pi0 = 1/758
+r0 = 3
+```
+
+# Without measurement error
+
+```{r}
+survey_sample(R = r, n = n, pi0 = pi0)
+```
+
+```{r}
+mle(R = r, R0 = r0, n = n, pi0 = pi0)
+```
+
+# With measurment error (Setting I)
+
+```{r}
+# Assumptions
+alpha = alpha0 = 0.005
+beta = 0.025
+beta0 = 0.05
+```
+
+```{r}
+survey_sample(R = r, n = n, pi0 = pi0, alpha = alpha, beta = beta)
+```
+
+```{r}
+mle(R = r, R0 = r0, n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+```
+
+## Sensitivity to $R_0$
+
+```{r, fig.width=7.5, fig.height=4, echo = FALSE, warning=FALSE}
+# Compute proportions
+surv_no_error = survey_sample(R = r, n = n, pi0 = pi0)
+surv_with_error = survey_sample(R = r, n = n, pi0 = pi0, alpha = alpha, beta = beta)
+R0 = 0:4
+m = length(R0)
+mle_no_error_1 = mle(R = r, R0 = R0[1], n = n, pi0 = pi0)
+mle_no_error_2 = mle(R = r, R0 = R0[2], n = n, pi0 = pi0)
+mle_no_error_3 = mle(R = r, R0 = R0[3], n = n, pi0 = pi0)
+mle_no_error_4 = mle(R = r, R0 = R0[4], n = n, pi0 = pi0)
+mle_no_error_5 = mle(R = r, R0 = R0[5], n = n, pi0 = pi0)
+estimate_no_error = c(mle_no_error_1$estimate, mle_no_error_2$estimate, 
+                     mle_no_error_3$estimate, mle_no_error_4$estimate, 
+                     mle_no_error_5$estimate)
+lw_no_error = c(mle_no_error_1$ci_cp[1], mle_no_error_2$ci_cp[1], 
+                     mle_no_error_3$ci_cp[1], mle_no_error_4$ci_cp[1], 
+                     mle_no_error_5$ci_cp[1])
+up_no_error = c(mle_no_error_1$ci_cp[2], mle_no_error_2$ci_cp[2], 
+                     mle_no_error_3$ci_cp[2], mle_no_error_4$ci_cp[2], 
+                     mle_no_error_5$ci_cp[2])
+
+mle_with_error_1 = mle(R = r, R0 = R0[1], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_2 = mle(R = r, R0 = R0[2], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_3 = mle(R = r, R0 = R0[3], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_4 = mle(R = r, R0 = R0[4], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_5 = mle(R = r, R0 = R0[5], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+estimate_with_error = c(mle_with_error_1$estimate, mle_with_error_2$estimate, 
+                     mle_with_error_3$estimate, mle_with_error_4$estimate, 
+                     mle_with_error_5$estimate)
+lw_with_error = c(mle_with_error_1$ci_cp[1], mle_with_error_2$ci_cp[1], 
+                     mle_with_error_3$ci_cp[1], mle_with_error_4$ci_cp[1], 
+                     mle_with_error_5$ci_cp[1])
+up_with_error = c(mle_with_error_1$ci_cp[2], mle_with_error_2$ci_cp[2], 
+                     mle_with_error_3$ci_cp[2], mle_with_error_4$ci_cp[2], 
+                     mle_with_error_5$ci_cp[2])
+
+# Graph
+cols = hcl(h = seq(15, 375, length = 4), l = 65, c = 100)[1:3]
+cols_trans = hcl(h = seq(15, 375, length = 4), l = 65, c = 100, alpha = 0.2)[1:3]
+par(mfrow = c(1,2), mar = c(0.5,0.5,0.5,0.5), oma = c(5,5,3,0))
+plot(NA, xlim = c(0,4), ylim = c(0, 1), xlab = " ", ylab = " ", axes = FALSE)
+polygon(c(R0, rev(R0)), 100*c(rep(surv_no_error$ci_cp[1], m), rep(surv_no_error$ci_cp[2], m)), border = NA, col = cols_trans[1])
+polygon(c(R0, rev(R0)), 100*c(lw_no_error, rev(up_no_error)), border = NA, col = cols_trans[2])
+lines(R0, 100*rep(surv_no_error$estimate, 5), col = cols[1], pch = 16, type = "b")
+lines(R0, 100*estimate_no_error, col = cols[2], pch = 17, type = "b")
+axis(1)
+axis(2)
+box()
+mtext("Estimated Prevalence (%)", side = 2, line = 3)
+mtext(expression(R[0]), side = 1, line = 3)
+abline(h = 100*pi0, lwd = 2)
+text(0.2, 50*pi0, expression(pi[0]))
+mtext("Without Measurment error", side = 3, line = 1)
+
+plot(NA, xlim = c(0,4), ylim = c(0, 1), xlab = " ", ylab = " ", axes = FALSE)
+polygon(c(R0, rev(R0)), 100*c(rep(surv_with_error$ci_cp[1], m), rep(surv_with_error$ci_cp[2], m)), border = NA, col = cols_trans[1])
+polygon(c(R0, rev(R0)), 100*c(lw_with_error, rev(up_with_error)), border = NA, col = cols_trans[2])
+lines(R0, 100*rep(surv_with_error$estimate, 5), col = cols[1], pch = 16, type = "b")
+lines(R0, 100*estimate_with_error, col = cols[2], pch = 17, type = "b")
+axis(1)
+box()
+mtext(expression(R[0]), side = 1, line = 3)
+abline(h = 100*pi0, lwd = 2)
+text(0.2, 50*pi0, expression(pi[0]))
+mtext("With Measurment error", side = 3, line = 1)
+legend("topright", c("Survey Sample", "MLE"), col = cols[c(1,2)],
+       pch = c(15, 17), lwd = 1, bty = "n")
+```
+
+
+
+# With measurment error (Setting II)
+
+```{r}
+# Assumptions
+alpha = alpha0 = 0.001
+beta = 0.025
+beta0 = 0.05
+```
+
+```{r}
+survey_sample(R = r, n = n, pi0 = pi0, alpha = alpha, beta = beta)
+```
+
+```{r}
+mle(R = r, R0 = r0, n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+```
+
+## Sensitivity to $R_0$
+
+```{r, fig.width=7.5, fig.height=4, echo = FALSE, warning=FALSE}
+# Compute proportions
+surv_no_error = survey_sample(R = r, n = n, pi0 = pi0)
+surv_with_error = survey_sample(R = r, n = n, pi0 = pi0, alpha = alpha, beta = beta)
+R0 = 0:4
+m = length(R0)
+mle_no_error_1 = mle(R = r, R0 = R0[1], n = n, pi0 = pi0)
+mle_no_error_2 = mle(R = r, R0 = R0[2], n = n, pi0 = pi0)
+mle_no_error_3 = mle(R = r, R0 = R0[3], n = n, pi0 = pi0)
+mle_no_error_4 = mle(R = r, R0 = R0[4], n = n, pi0 = pi0)
+mle_no_error_5 = mle(R = r, R0 = R0[5], n = n, pi0 = pi0)
+estimate_no_error = c(mle_no_error_1$estimate, mle_no_error_2$estimate, 
+                     mle_no_error_3$estimate, mle_no_error_4$estimate, 
+                     mle_no_error_5$estimate)
+lw_no_error = c(mle_no_error_1$ci_cp[1], mle_no_error_2$ci_cp[1], 
+                     mle_no_error_3$ci_cp[1], mle_no_error_4$ci_cp[1], 
+                     mle_no_error_5$ci_cp[1])
+up_no_error = c(mle_no_error_1$ci_cp[2], mle_no_error_2$ci_cp[2], 
+                     mle_no_error_3$ci_cp[2], mle_no_error_4$ci_cp[2], 
+                     mle_no_error_5$ci_cp[2])
+
+mle_with_error_1 = mle(R = r, R0 = R0[1], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_2 = mle(R = r, R0 = R0[2], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_3 = mle(R = r, R0 = R0[3], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_4 = mle(R = r, R0 = R0[4], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mle_with_error_5 = mle(R = r, R0 = R0[5], n = n, pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+estimate_with_error = c(mle_with_error_1$estimate, mle_with_error_2$estimate, 
+                     mle_with_error_3$estimate, mle_with_error_4$estimate, 
+                     mle_with_error_5$estimate)
+lw_with_error = c(mle_with_error_1$ci_cp[1], mle_with_error_2$ci_cp[1], 
+                     mle_with_error_3$ci_cp[1], mle_with_error_4$ci_cp[1], 
+                     mle_with_error_5$ci_cp[1])
+up_with_error = c(mle_with_error_1$ci_cp[2], mle_with_error_2$ci_cp[2], 
+                     mle_with_error_3$ci_cp[2], mle_with_error_4$ci_cp[2], 
+                     mle_with_error_5$ci_cp[2])
+
+# Graph
+cols = hcl(h = seq(15, 375, length = 4), l = 65, c = 100)[1:3]
+cols_trans = hcl(h = seq(15, 375, length = 4), l = 65, c = 100, alpha = 0.2)[1:3]
+par(mfrow = c(1,2), mar = c(0.5,0.5,0.5,0.5), oma = c(5,5,3,0))
+plot(NA, xlim = c(0,4), ylim = c(0, 1), xlab = " ", ylab = " ", axes = FALSE)
+polygon(c(R0, rev(R0)), 100*c(rep(surv_no_error$ci_cp[1], m), rep(surv_no_error$ci_cp[2], m)), border = NA, col = cols_trans[1])
+polygon(c(R0, rev(R0)), 100*c(lw_no_error, rev(up_no_error)), border = NA, col = cols_trans[2])
+lines(R0, 100*rep(surv_no_error$estimate, 5), col = cols[1], pch = 16, type = "b")
+lines(R0, 100*estimate_no_error, col = cols[2], pch = 17, type = "b")
+axis(1)
+axis(2)
+box()
+mtext("Estimated Prevalence (%)", side = 2, line = 3)
+mtext(expression(R[0]), side = 1, line = 3)
+abline(h = 100*pi0, lwd = 2)
+text(0.2, 50*pi0, expression(pi[0]))
+mtext("Without Measurment error", side = 3, line = 1)
+
+plot(NA, xlim = c(0,4), ylim = c(0, 1), xlab = " ", ylab = " ", axes = FALSE)
+polygon(c(R0, rev(R0)), 100*c(rep(surv_with_error$ci_cp[1], m), rep(surv_with_error$ci_cp[2], m)), border = NA, col = cols_trans[1])
+polygon(c(R0, rev(R0)), 100*c(lw_with_error, rev(up_with_error)), border = NA, col = cols_trans[2])
+lines(R0, 100*rep(surv_with_error$estimate, 5), col = cols[1], pch = 16, type = "b")
+lines(R0, 100*estimate_with_error, col = cols[2], pch = 17, type = "b")
+axis(1)
+box()
+mtext(expression(R[0]), side = 1, line = 3)
+mtext("With Measurment error", side = 3, line = 1)
+abline(h = 100*pi0, lwd = 2)
+text(0.2, 50*pi0, expression(pi[0]))
+legend("topright", c("Survey Sample", "MLE"), col = cols[c(1,2)],
+       pch = c(15, 17), lwd = 1, bty = "n")
+```
+
+## Checking condition for MLE
+
+We can check the conditions for the MLE. For example, in the second setting we have:
+
+```{r, fig.width=5, fig.height=4, echo = FALSE, warning=FALSE}
+plot_a(pi0 = pi0, alpha = alpha, beta = beta, alpha0 = alpha0, beta0 = beta0)
+mtext("Setting II", side = 3, line = 1)
+```
